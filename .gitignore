@@ -3,8 +3,12 @@
 \#*\#
 
 # C Object Files
+a.out
 *.o
 
 # Python Files
 *.pyc
 *.pyo
+
+# Scons trash
+.sconsign*
