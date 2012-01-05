@@ -1,0 +1,10 @@
+# Editor files
+*~
+\#*\#
+
+# C Object Files
+*.o
+
+# Python Files
+*.pyc
+*.pyo
