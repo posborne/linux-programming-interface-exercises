@@ -1,0 +1,2 @@
+Program('prog_tee', 'tee.c')
+Program('prog_cpholes', 'cpholes.c')
