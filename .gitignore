@@ -12,3 +12,6 @@ a.out
 
 # Scons trash
 .sconsign*
+
+# Our binary executables (pattern for scons scripts)
+prog_*
