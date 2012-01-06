@@ -11,9 +11,86 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <malloc.h>
 
-int main()
+static int append_mode = 0;
+
+int parse_args(int argc, char *argv[])
 {
-	printf("TODO!\n");
+	char c;
+	while ((c = getopt(argc, argv, "a")) != -1) {
+		switch (c) {
+		case 'a':
+			append_mode = 1;
+			break;
+		case '?':
+			if (isprint(optopt))
+				fprintf(stderr, "Unkonw option `-%c'.\n", optopt);
+			else
+				fprintf(stderr,
+					"Unknown option character `\\x%x'.\n", optopt);
+			return 1;
+		default:
+			abort();
+		}
+	}
+	return 0;
+}
+
+int main(int argc, char *argv[])
+{
+	char buf[100];
+	size_t len;
+	char *file_mode;
+      	int i;
+	FILE **files;
+	int num_files;
+	
+	if (parse_args(argc, argv)) {
+		return 1;
+	}
+	
+	file_mode = (append_mode ? "a" : "w");
+	
+	num_files = argc - optind;
+	if (num_files > 0) {
+		files = (FILE**) malloc(sizeof(FILE) * (argc - optind));
+		if (files == NULL) {
+			fprintf(stderr, "Unable to allocate file buffer space\n");
+			return 1;
+		}
+
+		/* go through file arguments and either open for writing
+		   or append based on the -a flag */
+		for (i = optind; i < argc; i++) {
+			FILE *pFile = fopen(argv[i], file_mode);
+			if (pFile == NULL)
+			{
+				fprintf(stderr, "Unable to open file %s for mode %s",
+					argv[i], file_mode);
+				goto main_cleanup;
+			}
+			files[i] = pFile;
+		}
+	}
+	
+
+	while (len = fread(&buf[0], 1, sizeof(buf), stdin)) {
+		fwrite(&buf[0], 1, len, stdout);
+		for (i = 0; i < num_files; i++) {
+			fwrite(&buf[0], 1, len, files[i]);
+		}
+	}
+
+	main_cleanup:
+	if (num_files > 0) {
+		for (i = 0; i < num_files; i++) {
+			fclose(files[i]);
+		}
+		free(files);
+	}
+
 	return 0;
 }
