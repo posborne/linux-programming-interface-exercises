@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include <malloc.h>
 
 static int append_mode = 0;
 
@@ -34,6 +33,7 @@ int parse_args(int argc, char *argv[])
 			return 1;
 		default:
 			abort();
+			break;
 		}
 	}
 	return 0;
@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
 	char buf[100];
 	size_t len;
 	char *file_mode;
-      	int i;
-	FILE **files;
+    int i;
+	FILE *files[20];
 	int num_files;
 	
 	if (parse_args(argc, argv)) {
@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
 	
 	num_files = argc - optind;
 	if (num_files > 0) {
-		files = (FILE**) malloc(sizeof(FILE) * (argc - optind));
 		if (files == NULL) {
 			fprintf(stderr, "Unable to allocate file buffer space\n");
 			return 1;
@@ -72,12 +71,12 @@ int main(int argc, char *argv[])
 					argv[i], file_mode);
 				goto main_cleanup;
 			}
-			files[i] = pFile;
+			files[i - optind] = pFile; /* mind the offset */
 		}
 	}
 	
-
-	while (len = fread(&buf[0], 1, sizeof(buf), stdin)) {
+	FILE *not_stdin = fopen("tee.c", "r");
+	while ((len = fread(&buf[0], 1, sizeof(buf), not_stdin)) > 0) {
 		fwrite(&buf[0], 1, len, stdout);
 		for (i = 0; i < num_files; i++) {
 			fwrite(&buf[0], 1, len, files[i]);
@@ -89,7 +88,6 @@ int main(int argc, char *argv[])
 		for (i = 0; i < num_files; i++) {
 			fclose(files[i]);
 		}
-		free(files);
 	}
 
 	return 0;

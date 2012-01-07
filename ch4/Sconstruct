@@ -1,2 +1,5 @@
-Program('prog_tee', 'tee.c')
-Program('prog_cpholes', 'cpholes.c')
+CFLAGS = '-g'
+
+env = Environment(CFLAGS=CFLAGS)
+env.Program('prog_tee', 'tee.c')
+env.Program('prog_cpholes', 'cpholes.c')
