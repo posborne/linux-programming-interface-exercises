@@ -1,7 +1,14 @@
 /*
  * Write a program like cp that, when used to copy a regular file that
- * contains holes (sequences of null bytes), also creates correspdonding
+ * contains holes (sequences of null bytes), also creates corresponding
  * holes in the target file.
+ *
+ * In actuality, this application replaces any sequence of NUL bytes with
+ * file holes.  This can be useful as a means of compression for files
+ * with large NUL byte gaps.  When normal reads are performed on the files,
+ * the result will be the same.
+ *
+ * Usage: ./prog_cpholes <src> <dst>
  */
 
 #include <stdio.h>
@@ -51,11 +58,31 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
-	/* do the copy operation */
+	/*
+	 * For copying, we read-and-copy from source to destination
+	 * one byte at a time.  When we hit a NUL byte in the source.
+	 * We start counting how many bytes are going to be in our
+	 * file hole.
+	 *
+	 * NOTE: Linux 3.1 adds SEEK_DATA and SEEK_HOLE flags for
+	 * lseek which would be quite nice here.  Unfortunately, my
+	 * box (and most others) aren't running 3.1 yet.
+	 *   $ uname -r
+	 *   3.0.0-14-generic
+	 */
+	int i, err;
+	unsigned long holeSize = 0;
 	while ((numRead = read(inputFd, buf, BUF_SIZE)) > 0) {
-		if (write(outputFd, buf, numRead) != numRead) {
-			printf("Failed to write full buffer to output file!\n");
-			return 1;
+		for (i = 0; i < numRead; i++) {
+			if (buf[i] == '\0') {
+				holeSize++;
+			} else if (holeSize > 0) {
+				lseek(outputFd, holeSize, SEEK_CUR);
+				write(outputFd, &buf[i], 1);
+				holeSize = 0;
+			} else {
+				write(outputFd, &buf[i], 1);
+			}
 		}
 	}
 
