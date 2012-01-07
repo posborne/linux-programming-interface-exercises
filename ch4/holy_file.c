@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #define PATTERN_CHUNK_SIZE 80
 static const char *TEST_PATTERN = "1234567890_HelloWorld\n";
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
 	
 	outputFd = open(argv[3], openFlags, filePerms);
 	if (outputFd < 0) {
-		printf("Failed to open output file: %s\n", strerror(outputFd));
+		printf("Failed to open output file: %s\n", strerror(errno));
 		print_usage();
 		return 1;
 	}
@@ -60,7 +61,7 @@ int main(int argc, char *argv[])
 			write(outputFd, &TEST_PATTERN[i % strlen(TEST_PATTERN)], 1);
 		}
 		if ((err = lseek(outputFd, gapSize, SEEK_CUR)) < 0) {
-			printf("lseek err: %s\n", strerror(err));
+			printf("lseek err: %s\n", strerror(errno));
 			return 1;
 		}
 	}

@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
+#include <errno.h>
 
 #ifndef BUF_SIZE /* Allow "cc -D" to override */
 #define BUF_SIZE 1024
@@ -46,14 +47,14 @@ int main(int argc, char *argv[])
 	
 	inputFd = open(argv[1], O_RDONLY);
 	if (inputFd < 0) {
-		printf("Failed to open input file: %s\n", strerror(inputFd));
+		printf("Failed to open input file: %s\n", strerror(errno));
 		print_usage();
 		return 1;
 	}
 	
 	outputFd = open(argv[2], openFlags, filePerms);
 	if (outputFd < 0) {
-		printf("Failed to open output file: %s\n", strerror(inputFd));
+		printf("Failed to open output file: %s\n", strerror(errno));
 		print_usage();
 		return 1;
 	}
