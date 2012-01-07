@@ -1,5 +1,6 @@
 CFLAGS = '-g'
 
 env = Environment(CFLAGS=CFLAGS)
+env.Program('prog_holyfile', 'holy_file.c')
 env.Program('prog_tee', 'tee.c')
 env.Program('prog_cpholes', 'cpholes.c')
