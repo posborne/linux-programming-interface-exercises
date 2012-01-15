@@ -1,0 +1,2 @@
+env = Environment(CFLAGS='-g')
+env.Program('prog_large_file', 'large_file.c')
