@@ -80,11 +80,11 @@ Write a program to verify that duplicated file descriptors share a
 file offset value and open file status flags.
 
 ** Answer **
-[TODO]
+See the main entry-point for dup.c
 
 == Question 5-6 ==
 ** Question **
-After each of the calls to write() in th e following code, explain
+After each of the calls to write() in the following code, explain
 what the content of the output file would be, and why:
 
     fd1 = open(file, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
