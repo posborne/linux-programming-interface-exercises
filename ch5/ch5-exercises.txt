@@ -96,7 +96,46 @@ what the content of the output file would be, and why:
     write(fd3, "Gidday", 6);
 
 ** Answer **
-[TODO]
+>>> fd1 = open(file, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+
+Attempt to create a new file descriptor for the file "file" for read/write
+access.  If it does not exist, create is with user read/write permissions.
+If the file already exists, the contents are truncated (no contents and
+offset set at 0).  On failure, -1 will be returned.
+
+>>> fd2 = dup(fd1);
+
+Create a duplicate of the file descriptor fd1.  fd2, on success, will
+share the same offset/flags as fd1.
+
+>>> fd3 = open(file, O_RDWR);
+
+Create a new file descriptor and open with read/write permissions.  If
+the file does not exists it will not be created.  The contents will
+not be affected by the file pointer will be at the beginning of the file.
+
+>>> write(fd1, "Hello,", 6);
+
+From the current position in the file, write (or overwrite) the 6 bytes
+"Hello," to the file.  The number of bytes actually written will be
+returned (or -1 on failure).  The operation may act slightly differently
+depending on the flags.  In the current context, "Hello," will be
+written to "file", starting at the beginning of the file.  The offset will
+be modified on fd1 and fd2 but not on fd3.
+
+>>> write(fd2, " world", 6);
+
+Like the previous, affecting the offset in fd1 and fd2 but not affecting
+fd3.  File now contains "Hello, world".
+
+>>> write(fd1, "HELLO,", 6);
+
+Similar, file now contains "Hello, worldHELLO,"
+
+>>> write(fd3, "Gidday", 6);
+
+Since the offset is not shared, this results in the following file
+contents "Gidday, worldHELLO,"
 
 == Question 5-7 ==
 ** Question **
