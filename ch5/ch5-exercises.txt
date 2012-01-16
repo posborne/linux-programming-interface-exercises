@@ -71,7 +71,8 @@ example, checking if fcntl(oldfd, F_GETFL) succeeds.  If oldfd is not
 valid, then the function should return -1 with errrno set to EBADF.
 
 ** Answer **
-[TODO]
+See dup.c.  Note that in the test app, the files share the same
+offset (as shown by the reads).
 
 == Question 5-5 ==
 ** Question **
