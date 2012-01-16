@@ -6,7 +6,7 @@ program with the _FILE_OFFSET_BITS macro set to 64, and test it to
 show that a large file can be successfully created.
 
 ** Answer **
-[TODO]
+See large_file.c.  Justa dding the macro seemed to do the trick.
 
 == Exercise 5.2 ==
 ** Question **
@@ -15,7 +15,13 @@ O_APPEND flag, and then seeks to the beginning of the file before
 writing some data.  Where does the data appear in the file?  Why?
 
 ** Answer **n
-[TODO]
+The data is appended to the end of the file, rather than being
+written to where one would expect.  This is the case because
+the O_APPEND flag changes the write() system call to work
+differently.  Instead of writing at the current offset, the OS
+atomically seeks to the end of the file and performs the write.
+Essentially, the offset value (pointer in file) doesn't matter
+when opened with O_APPEND.
 
 == Exercise 5.3 ==
 ** Question **
