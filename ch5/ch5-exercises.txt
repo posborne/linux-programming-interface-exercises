@@ -35,7 +35,7 @@ This program should open the specified filename (creating it if
 necessary) and append num-bytes bytes to the file by using write() to
 write a byte at a time.  By default, the program should open the file
 with the O_APPEND flag, but if a third command-line argument (x) is
-supplied, th ethe O_APPEND flag should be omitted, and instead, the
+supplied, the O_APPEND flag should be omitted, and instead, the
 program should perform and lseek(fd, 0, SEEK_END) call before each
 write().  Run two instances of this program at the same time without
 the x argument to write 1 million bytes to the same file:
@@ -51,7 +51,14 @@ List the sizes of the files f1 and f2 using `ls -l` and explain the
 difference.
 
 ** Answer **
-[TODO]
+The sizes were definitely different:
+
+  -rw------- 1 posborne posborne 1272426 2012-01-15 21:31 test2.txt
+  -rw------- 1 posborne posborne 2000000 2012-01-15 21:29 test.txt
+
+Where test2.txt was run without O_APPEND.  test2.txt is short by the number
+of times (or bytes as a result of times) that seeking to the end of the
+file did not happen at the same time as the write (quite frequently).
 
 == Question 5-4 ==
 ** Question **
