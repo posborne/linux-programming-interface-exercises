@@ -143,5 +143,4 @@ Implemented readv() and writev() using read() and write(), and
 suitable functions from the malloc package (Section 7.1.2).
 
 ** Answer **
-[TODO]
-
+See vector_fileio.c
