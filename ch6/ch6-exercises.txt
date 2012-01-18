@@ -1,0 +1,52 @@
+== Exercise 6.1 ==
+** Question **
+Compile the program in Listing 6-1 (mem_segments.c), and list its size
+using ls -l.  Although the program contains an array (mbuf) that is
+around 10 MB in size, the executable file is much smaller than this.
+Why is this?
+
+** Answer **
+'ls -l' just shows the size of the stored artifacts for a program that
+are stored on disk, not what actually gets put into memory.  The items
+from the text area of the program will likely all be present, but not
+storage for memory that will be allocated in the other parts of the
+process (not program) when loaded into memory.  In this case, the
+static buffer will be located in the "uninitialized data segment" of
+the process memory map.
+
+== Exercise 6.2 ==
+** Question **
+Write a program to see what happens if we try to longjmp() into a
+function that has already returned.
+
+** Answer **
+See longjmp_retfunc.c.  Here's the results of executing the resultant
+program:
+
+$ ./prog_longjmp_retfunc
+case 0
+case 1
+segmentation fault
+
+$ valgrind ./prog_longjmp_retfunc
+
+...
+==16502== Command: ./prog_longjmp_retfunc
+==16502== 
+case 0
+case 1
+vex amd64->IR: unhandled instruction bytes: 0x1F 0x3 0x0 0xFF 0x7 0x0
+==16502== valgrind: Unrecognised instruction at address 0x7ff000048.
+...
+
+== Exercise 6.3 ==
+** Question **
+Implement setenv() and unsetenv() using getenv(), putenv(), and, where
+necessary, code that directly modifies environ.  Your version of
+unsetenv() should check to see whether there are multiple definitions
+of an environment variable, and remove them all (which is what the
+glibc version of unsetenv() does).
+
+** Answer **
+See myenviron.c.
+

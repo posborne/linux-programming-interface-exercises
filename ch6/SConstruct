@@ -1,0 +1,2 @@
+env = Environment(CFLAGS='-g')
+env.Program('prog_longjmp_retfunc', 'longjmp_retfunc.c')
