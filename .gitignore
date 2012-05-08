@@ -15,3 +15,9 @@ a.out
 
 # Our binary executables (pattern for scons scripts)
 prog_*
+
+# eclipse trash
+*.*project*
+
+# ch5 ignores
+ch5/testfile.txt
