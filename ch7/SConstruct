@@ -1,2 +1,3 @@
 env = Environment(CFLAGS='-g -Wall')
 env.Program('prog_free_and_sbrk', 'free_and_sbrk.c')
+env.Program('prog_free_and_sbrk_7_1', 'free_and_sbrk_7_1.c')
