@@ -123,9 +123,12 @@ void * po_malloc(size_t size)
     } else {
     	expand_size = size_plus_header;
     }
+    void * old_sbrk = sbrk(0);
     block_header = (block_header_t *)sbrk(expand_size);
-    memory_to_use = block_header + sizeof(block_header_t);
-    printf("    sbrk(%d) -> 0x%08X\n", expand_size, memory_to_use);
+    void * new_sbrk = sbrk(0);
+    printf("sbrk move 0x%08X -> 0x%08X (+%lu)\n", old_sbrk, new_sbrk,
+    		(unsigned long)new_sbrk - (unsigned long)old_sbrk);
+    memory_to_use = (void *)((unsigned long)block_header + sizeof(block_header_t));
     if (!block_header) {
     	/* failed to allocate more memory, return NULL */
     	return NULL;
@@ -194,8 +197,8 @@ int main(int argc, char *argv[]) {
 		buf[i - 1] = '\0';  // nul terminate
 	}
 
-	for (i = 0; i < sizeof bufs; i++) {
-		printf("%d -> %s", i, bufs[i]);
+	for (i = 0; i < 100 - 2; i++) {
+		printf("%d -> %s\n", i, bufs[i]);
 	}
 	return 0;
 }
