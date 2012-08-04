@@ -21,8 +21,8 @@ typedef struct {
 
 static block_header_t * free_ll_head = NULL;
 
-#define FREE_BLOCK_HEADER(ptr) ((block_header_t *) ((void* )ptr - sizeof(block_header_t)))
-#define FREE_BLOCK_MEMORY(ptr) ((void *)(ptr + sizeof(block_header_t)))
+#define FREE_BLOCK_HEADER(ptr) ((block_header_t *) ((unsigned long)ptr - sizeof(block_header_t)))
+#define FREE_BLOCK_MEMORY(ptr) ((void *)((unsigned long)ptr + sizeof(block_header_t)))
 
 int ll_append(block_header_t * prev, block_header_t * next)
 {
@@ -100,7 +100,7 @@ void * po_malloc(size_t size)
     while (next_free_chunk) {
         current_header = FREE_BLOCK_HEADER(next_free_chunk);
         if (current_header->block_length >= size) {
-            memory_to_use = (void*)current_header + sizeof(block_header_t);
+            memory_to_use = (void*)((unsigned long)current_header + sizeof(block_header_t));
             if (current_header->block_length > size_plus_header) {
                 new_free_header = (block_header_t *)(memory_to_use + size);
                 new_free_header->block_length = current_header->block_length - size;
@@ -179,7 +179,7 @@ void po_free(void *ptr)
 	}
 }
 
-int main(int argc, char *argv[]) {
+void malloc_only_test() {
 	int i, j;
 	char * buf;
 	char * oldbuf = NULL;
@@ -200,5 +200,37 @@ int main(int argc, char *argv[]) {
 	for (i = 0; i < 100 - 2; i++) {
 		printf("%d -> %s\n", i, bufs[i]);
 	}
+}
+
+void simple_free_test() {
+	/* do some mallocs, free it all, do the mallocs again (sbrk should not move) */
+	int i, j, len;
+	char * bufs[100];
+	void * cur_brk;
+	for (i = 0; i < 100; i++) {
+		len = 100 + i;
+		bufs[i] = po_malloc(len);
+		for (j = 0; j < len - 1; j++) {
+			bufs[i][j] = '0' + (i % 10);
+		}
+		bufs[i][len - 1] = '\0';
+	}
+	cur_brk = sbrk(0);
+	for (i = 0; i < 100; i++) {
+		po_free(bufs[i]);
+	}
+	for (i = 0; i < 100; i++) {
+		len = 100 + i;
+		bufs[i] = po_malloc(len);
+		for (j = 0; j < len - 1; j++) {
+			bufs[i][j] = '0' + (i % 10);
+		}
+		bufs[i][len - 1] = '\0';
+	}
+	printf("sbrk(0): bfr 0x%08X, after 0x%08X\n", cur_brk, sbrk(0));
+}
+
+int main(int argc, char *argv[]) {
+	simple_free_test();
 	return 0;
 }
