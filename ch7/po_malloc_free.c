@@ -13,10 +13,12 @@
 #define MIN_EXPAND_SIZE 1024
 #define MIN(x, y) (x < y ? x : y)
 
-typedef struct {
+struct block_header;
+
+typedef struct block_header {
     size_t block_length;
-    void *prev_free_chunk;
-    void *next_free_chunk;
+    struct block_header * prev_free_chunk;
+    struct block_header * next_free_chunk;
 } block_header_t;
 
 static block_header_t * free_ll_head = NULL;
@@ -26,8 +28,8 @@ static block_header_t * free_ll_head = NULL;
 
 int ll_append(block_header_t * prev, block_header_t * next)
 {
-	prev->next_free_chunk = FREE_BLOCK_MEMORY(next);
-	next->prev_free_chunk = FREE_BLOCK_MEMORY(prev);
+	prev->next_free_chunk = next;
+	next->prev_free_chunk = prev;
 	return 0;
 }
 
@@ -39,16 +41,16 @@ int ll_remove(block_header_t * list_item)
 	/* make prev and next point to each other, if not NULL */
 	if (!list_item->prev_free_chunk) {
 		if (list_item->next_free_chunk) {
-			free_ll_head = FREE_BLOCK_HEADER(list_item->next_free_chunk);
+			free_ll_head = list_item->next_free_chunk;
 		} else {
 			free_ll_head = NULL;
 		}
 	} else {
-		FREE_BLOCK_HEADER(list_item->prev_free_chunk)->next_free_chunk = list_item->next_free_chunk;
+		list_item->prev_free_chunk->next_free_chunk = list_item->next_free_chunk;
 	}
 
 	if (list_item->next_free_chunk) {
-		FREE_BLOCK_HEADER(list_item->next_free_chunk)->prev_free_chunk = list_item->prev_free_chunk;
+		list_item->next_free_chunk->prev_free_chunk = list_item->prev_free_chunk;
 	}
 	return 0;
 }
@@ -60,10 +62,13 @@ int ll_remove(block_header_t * list_item)
 int ll_replace(block_header_t *old_item, block_header_t *new_item)
 {
 	/* update references that must point to new item */
-	FREE_BLOCK_HEADER(old_item->prev_free_chunk)->next_free_chunk = FREE_BLOCK_MEMORY(new_item);
-	if (old_item->next_free_chunk) {
-		FREE_BLOCK_HEADER(old_item->next_free_chunk)->prev_free_chunk = FREE_BLOCK_MEMORY(new_item);
-	}
+	if (old_item->prev_free_chunk)
+		old_item->prev_free_chunk->next_free_chunk = new_item;
+	else
+		free_ll_head = new_item;
+
+	if (old_item->next_free_chunk)
+		old_item->next_free_chunk->prev_free_chunk = new_item;
 
 	/* update references for the new item itself */
 	new_item->prev_free_chunk = old_item->prev_free_chunk;
@@ -94,15 +99,14 @@ void * po_malloc(size_t size)
 {
     block_header_t *current_header, *new_free_header, *block_header;
     void *memory_to_use = NULL;
-    void *next_free_chunk = free_ll_head;
     const size_t size_plus_header = size + sizeof(block_header_t);
-    current_header = new_free_header = block_header = NULL;
-    while (next_free_chunk) {
-        current_header = FREE_BLOCK_HEADER(next_free_chunk);
+    new_free_header = block_header = NULL;
+    current_header = free_ll_head;
+    while (current_header) {
         if (current_header->block_length >= size) {
             memory_to_use = (void*)((unsigned long)current_header + sizeof(block_header_t));
             if (current_header->block_length > size_plus_header) {
-                new_free_header = (block_header_t *)(memory_to_use + size);
+                new_free_header = (block_header_t *)((unsigned long)memory_to_use + size);
                 new_free_header->block_length = current_header->block_length - size;
                 ll_replace(current_header, new_free_header);
              } else {
@@ -110,8 +114,7 @@ void * po_malloc(size_t size)
              }
             return memory_to_use;
         } else {
-            // next!
-            next_free_chunk = current_header->next_free_chunk;
+            current_header = current_header->next_free_chunk;
         }
     }
 
@@ -123,11 +126,7 @@ void * po_malloc(size_t size)
     } else {
     	expand_size = size_plus_header;
     }
-    void * old_sbrk = sbrk(0);
     block_header = (block_header_t *)sbrk(expand_size);
-    void * new_sbrk = sbrk(0);
-    printf("sbrk move 0x%08X -> 0x%08X (+%lu)\n", old_sbrk, new_sbrk,
-    		(unsigned long)new_sbrk - (unsigned long)old_sbrk);
     memory_to_use = (void *)((unsigned long)block_header + sizeof(block_header_t));
     if (!block_header) {
     	/* failed to allocate more memory, return NULL */
@@ -162,6 +161,10 @@ void * po_malloc(size_t size)
  * 
  * TODO: we currently don't set the break to ungrow the heap space for this
  * process.  This should be added in the future.
+ *
+ * TODO: we currently don't scan the entire linked list or manage blocks in
+ * such a way that we can avoid fragmentation.  For instance, we leave a bunch
+ * of gaps on the table when running simple_free_test().
  */
 void po_free(void *ptr)
 {
@@ -170,7 +173,7 @@ void po_free(void *ptr)
 	block_header_t * new_freed_header = FREE_BLOCK_HEADER(ptr);
 	new_freed_header->prev_free_chunk = NULL;
 	if (free_ll_head) {
-		new_freed_header->next_free_chunk = FREE_BLOCK_MEMORY(free_ll_head);
+		new_freed_header->next_free_chunk = free_ll_head;
 		free_ll_head->prev_free_chunk = ptr;
 		free_ll_head = new_freed_header;
 	} else {
@@ -215,6 +218,9 @@ void simple_free_test() {
 		}
 		bufs[i][len - 1] = '\0';
 	}
+	for (i = 0; i < 100; i++) {
+		printf("%02d [0x%08lX]: %s\n", i, (unsigned long)bufs[i], (char *)bufs[i]);
+	}
 	cur_brk = sbrk(0);
 	for (i = 0; i < 100; i++) {
 		po_free(bufs[i]);
@@ -227,10 +233,17 @@ void simple_free_test() {
 		}
 		bufs[i][len - 1] = '\0';
 	}
-	printf("sbrk(0): bfr 0x%08X, after 0x%08X\n", cur_brk, sbrk(0));
+	printf("== sbrk(0): bfr 0x%08lX, after 0x%08lX ==\n",
+			(unsigned long)cur_brk,
+			(unsigned long)sbrk(0));
+	for (i = 0; i < 100; i++) {
+		printf("%02d [0x%08lX]: %s\n", i, (unsigned long)bufs[i], (char *)bufs[i]);
+	}
+
 }
 
 int main(int argc, char *argv[]) {
 	simple_free_test();
+	// malloc_only_test();
 	return 0;
 }
