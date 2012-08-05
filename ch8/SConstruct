@@ -1,0 +1,2 @@
+env = Environment(CFLAGS='-g -Wall')
+env.Program('prog_getpwnam', 'getpwnam.c')
