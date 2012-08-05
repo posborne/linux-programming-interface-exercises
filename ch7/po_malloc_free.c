@@ -10,11 +10,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define MIN_EXPAND_SIZE 1024
-#define MIN(x, y) (x < y ? x : y)
-
-struct block_header;
-
 typedef struct block_header {
     size_t block_length;
     struct block_header * prev_free_chunk;
@@ -104,7 +99,7 @@ void * po_malloc(size_t size)
     current_header = free_ll_head;
     while (current_header) {
         if (current_header->block_length >= size) {
-            memory_to_use = (void*)((unsigned long)current_header + sizeof(block_header_t));
+            memory_to_use = FREE_BLOCK_MEMORY(current_header);
             if (current_header->block_length > size_plus_header) {
                 new_free_header = (block_header_t *)((unsigned long)memory_to_use + size);
                 new_free_header->block_length = current_header->block_length - size;
@@ -127,7 +122,7 @@ void * po_malloc(size_t size)
     	expand_size = size_plus_header;
     }
     block_header = (block_header_t *)sbrk(expand_size);
-    memory_to_use = (void *)((unsigned long)block_header + sizeof(block_header_t));
+    memory_to_use = FREE_BLOCK_MEMORY(block_header);
     if (!block_header) {
     	/* failed to allocate more memory, return NULL */
     	return NULL;
