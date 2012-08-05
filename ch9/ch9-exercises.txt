@@ -1,0 +1,131 @@
+== Exercise 9.1 ==
+** Question **
+Assume in each of the following cases that the initial set of process
+user IDs is real=1000 effective=0 saved=0 file-system=0.  What would
+be the state of the user IDs after the following calls? [in answers]
+
+** Answer **
+
+A few notes to frame the answers here: the effective userID is root
+but the real is not (e.g. sudo or similar).
+
+  (a) setuid(2000);
+
+      real=2000, effective=2000, saved=2000, file-system=2000
+
+  (b) setreuid(-1, 2000);
+
+      real=1000, effective=2000, saved=2000, file-system=2000
+
+  (c) seteuid(2000);
+
+      real=1000, effective=2000, saved=0, file-system=2000
+
+  (d) setfsuid(2000);
+
+      real=1000, effective=0, saved=0, file-system=2000
+
+  (e) setresuid(-1, 2000, 3000);
+
+      real=1000, effective=2000, saved=3000, file-system=2000
+
+== Exercise 9.2 ==
+** Question **
+Is a process with the following user IDs privileged?  Explain your
+answer?
+
+    real=0, effective=1000, saved=1000, file-system=1000
+
+** Answer **
+"Not really."  Since the effective userID is not privileged, the
+process is not privileged.  That being said, it could easily be made
+privileged again via system calls that allow one to set the effective
+uid back to the real uid.
+
+== Exercise 9.3 ==
+** Question **
+Implement initgroups() using setgroups() and library functions for
+retrieving information from the password and group files (Section
+8.4).  Remember that a process must be privileged in order to be able
+to call setgroups().
+
+** Answer **
+See initgroups.c.
+
+== Exercise 9.4 ==
+** Question **
+If a process whose user IDs all have the value X execute a set-user-ID
+program whose ID, Y, is nonzero, then thep rocess credential are set
+as follows:
+
+    real=X effective=Y saved=Y
+
+(We ignore the file-system user ID, since it tracks the effective user
+ID.)  Show the setuid(), seteuid(), setreuid(), and setresuid() calls,
+respsectively, that would be used to perform the follwoing operations:
+
+  a) Suspend and resume the set-user-ID identity (i.e., switch the
+  effective user ID to the value of the real user ID and then back to
+  the saved set-user-ID).
+
+  b) Permanently drop the set-user-ID identity (i.e., ensure that the
+  effective user ID and the saved set-user-ID are set to the value of
+  the real user ID).
+
+(This exercise also requires the use of getuid() and geteuid() to
+retrieve theh process's real and effective user IDs.)_  Note that for
+certain of the system calls listed above, some of these operations
+can't be performed.
+
+** Answer **
+
+eff_uid = geteuid();
+
+// setuid()
+setuid(getuid()); /* suspend */
+setuid(eff_uid); /* resume */
+/* dropping permanently not possible */
+
+// seteuid()
+seteuid(getuid()); /* suspend */
+seteuid(eff_uid); /* resume */
+/* dropping permanently not possible */
+
+// setreuid()
+setreuid(-1, geteuid()); /* suspend */
+setreuid(-1, eff_uid); /* resume */
+setreuid(getuid(), getuid()) /* drop permanently */
+
+// setresuid()
+setresuid(-1, getuid(), -1); /* suspend */
+setresuid(-1, eff_uid, -1); /* resume */
+setresuid(getuid(), getuid(), getuid()); /* drop permanently */
+
+== Exercise 9-5 ==
+** Question **
+Repeat the previous exercise for a process executing a
+set-user-ID-root program, which has the following initial set of
+process cerdentials:
+
+    real=X effective=0 saved=0
+
+** Answer **
+// setuid()
+/* suspend not possible */
+/* resume not possible */
+/* dropping permanently not possible */
+
+// seteuid()
+seteuid(getuid()); /* suspend */
+seteuid(0); /* resume */
+/* dropping permanently not possible */
+
+// setreuid()
+setreuid(-1, geteuid()); /* suspend */
+setreuid(-1, 0); /* resume */
+setreuid(getuid(), getuid()) /* drop permanently */
+
+// setresuid()
+setresuid(-1, getuid(), -1); /* suspend */
+setresuid(-1, 0, -1); /* resume */
+setresuid(getuid(), getuid(), getuid()); /* drop permanently */
