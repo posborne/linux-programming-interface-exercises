@@ -1,0 +1,35 @@
+== Exercise 13-1 ==
+** Question **
+Using the time built-in command of the shell, try timing the operation
+of the program in Listing 4-1 (copy.c) on your system.
+
+** Answer **
+
+(a) Experiment with different file and buffer sizes.  You can set the
+buffer size using the -DBUF_SIZE=nbytes option when compiling the
+program.
+
+With different buffer sizes:
+
+ - 10 bytes: 0.206 secs
+ - 512 bytes: 0.013 secs
+ - 512000 bytes: 0.007 secs
+
+(b) Modify the open() system call to include the O_SYNC flag.  How
+much difference does this make to the speed for various buffer sizes?
+
+ - 10 bytes: 778.368 secs
+ - 512 bytes: 14.408 secs
+ - 512000 bytes: 0.042 secs 
+
+(c) Try performing these timing tests on a range of file systems
+(e.g. ext3, XFS, btrfs, and JFS).  Are the results similar?  Are the
+trendsw the same when going from small to large buffer sizes?
+
+  - Didn't try, in general the trend seems to hold for this kind of
+    workload.  Readahead can be terrible in some cases (EEPROM).  Even
+    broken sometimes.
+
+== Exercise 13-2 ==
+** Question **
+

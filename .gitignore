@@ -5,6 +5,7 @@
 # C Object Files
 a.out
 *.o
+build_*
 
 # Python Files
 *.pyc
@@ -19,5 +20,5 @@ prog_*
 # eclipse trash
 *.*project*
 
-# ch5 ignores
-ch5/testfile.txt
+# test files
+testfile*.txt

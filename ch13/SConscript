@@ -1,0 +1,3 @@
+Import('env')
+Import('variant')
+env.Program('prog_copy', 'copy.c')

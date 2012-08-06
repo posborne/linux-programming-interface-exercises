@@ -1,0 +1,36 @@
+import os
+import stat
+
+def build_env(bufsize, sync=False):
+    if sync:
+        return Environment(CFLAGS='-g -DBUF_SIZE=%s -DSYNC' % bufsize)
+    else:
+        return Environment(CFLAGS='-g -DBUF_SIZE=%s' % bufsize)
+
+def make_prog(bufsize, sync=False):
+    if sync:
+        variant = '%s_sync' % bufsize
+    else:
+        variant = '%s' % bufsize
+    vardir = 'build_%s' % variant
+    env = build_env(bufsize, sync)
+    SConscript('SConscript', exports='env variant', variant_dir=vardir)
+    return vardir
+
+sizes = (10, 512, 512000)
+vardirs = []
+for size in sizes:
+    vardirs.append(make_prog(size))
+    vardirs.append(make_prog(size, True))
+
+with open('./runtests.sh', 'w') as f:
+    f.write("#! /bin/bash\n")
+    for vardir in vardirs:
+        f.write("echo '= %s ='\n" % vardir)
+        f.write("time ./%s/prog_copy testfile.txt testfile2.txt\n\n" % vardir)
+os.chmod('./runtests.sh', stat.S_IRUSR | stat.S_IXUSR | stat.S_IWUSR)
+
+with open('./testfile.txt', 'w') as f:
+    f.write("test\n" * 1000)  # ~5K
+
+
