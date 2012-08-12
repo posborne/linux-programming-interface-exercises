@@ -1,0 +1,9 @@
+echo '== write_bytes tests =='
+echo './prog_write_bytes testfile3.txt 10000000 10'
+./tim.py ./prog_write_bytes testfile3.txt 10000000 10
+echo './prog_write_bytes testfile3.txt 10000000 512'
+./tim.py ./prog_write_bytes testfile3.txt 10000000 512
+echo './prog_write_bytes testfile3.txt 10000000 1024'
+./tim.py ./prog_write_bytes testfile3.txt 10000000 1024
+echo './prog_write_bytes testfile3.txt 10000000 10000'
+./tim.py ./prog_write_bytes testfile3.txt 10000000 10000
