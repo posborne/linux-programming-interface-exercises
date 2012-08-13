@@ -1,3 +1,5 @@
 env = Environment(CFLAGS='-g')
-env.Program('prog_proclist', 'proclist.c')
-env.Program('prog_pstree', 'pstree.c')
+env.Library('proclib', ['proclib.c'])
+env.Program('prog_proclist', 'proclist.c', LIBS=['proclib'], LIBPATH='.')
+env.Program('prog_pstree', 'pstree.c', LIBS=['proclib'], LIBPATH='.')
+env.Program('prog_sherlock', 'sherlock.c', LIBS=['proclib'], LIBPATH='.')

@@ -15,6 +15,7 @@ Make sure your porgram correctly handles the possibility that a
 determines that the directory exists and the time that it tries to
 open the corresponding /proc/PID/status file.
 */
+#include "proclib.h"
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,17 +52,6 @@ uid_t user_id_from_name(const char *name)
 void print_usage(int argc, char **argv)
 {
 	printf("Usage: %s <username>\n", argv[0]);
-}
-
-
-void trim(char * s) {
-	char * p = s;
-	int l = strlen(p);
-
-	while(isspace(p[l - 1])) p[--l] = 0;
-	while(* p && isspace(* p)) ++p, --l;
-
-	memmove(s, p, l + 1);
 }
 
 

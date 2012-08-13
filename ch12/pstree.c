@@ -18,6 +18,7 @@ Providing this output consists of two main steps:
   2) Render the tree using a recursion (pre-order traversal)
 
 */
+#include "proclib.h"
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,16 +40,6 @@ struct pstree_node {
 
 static struct pstree_node * pstree_root = NULL;
 static struct pstree_node * ll_head;
-
-void trim(char * s) {
-	char * p = s;
-	int l = strlen(p);
-
-	while(isspace(p[l - 1])) p[--l] = 0;
-	while(* p && isspace(* p)) ++p, --l;
-
-	memmove(s, p, l + 1);
-}
 
 int ll_create_and_insert(char *procname, pid_t pid, pid_t ppid)
 {
