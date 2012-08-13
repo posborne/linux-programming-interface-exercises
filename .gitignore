@@ -5,6 +5,7 @@
 # C Object Files
 a.out
 *.o
+*.a
 build_*
 
 # Python Files

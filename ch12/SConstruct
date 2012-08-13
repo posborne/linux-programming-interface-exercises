@@ -1,5 +1,9 @@
 env = Environment(CFLAGS='-g')
+
+def make_prog(progname, cfile, **kwargs):
+    env.Program(progname, cfile, LIBS=['proclib'], LIBPATH='.', **kwargs)
+
 env.Library('proclib', ['proclib.c'])
-env.Program('prog_proclist', 'proclist.c', LIBS=['proclib'], LIBPATH='.')
-env.Program('prog_pstree', 'pstree.c', LIBS=['proclib'], LIBPATH='.')
-env.Program('prog_sherlock', 'sherlock.c', LIBS=['proclib'], LIBPATH='.')
+make_prog('prog_proclist', 'proclist.c')
+make_prog('prog_pstree', 'pstree.c')
+make_prog('prog_sherlock', 'sherlock.c')
