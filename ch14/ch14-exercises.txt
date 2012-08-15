@@ -1,0 +1,63 @@
+== Exercise 14-1 ==
+** Question **
+
+Write a program that measures the time required to create and then
+remove a large number of 1-byte files from a single directory.  The
+program should creaqte files with names of the form xNNNNNN where
+NNNNNN is replaced by a random six-digit number.  The file should be
+created in the random order in which their names are generated, and
+then deleted in increasing numberical order (i.e., an order that is
+different from that in which they were created).  The number of files
+(NF) and the directory in which they are to be created should be
+specifiable on the commaqnd line.  Measure the times required for
+diffferent values of NF (e.g., in the range from 10000 to 20,0000) and
+for different file systems (e.g. ext2, ext3, and XFS).  What patterns
+do you observe on each file system as NF increases?  Do the results
+change if the files are created in increasing numerical order
+(x000001, x000002, x000003, and so on) and then be deleted inthe same
+order?  If so, what do you think the reason(s) might be?  Again, do
+the results var across file-system types?
+
+** Answer **
+
+The source for this one is in benchmarkwrites.c.  See runtests.sh for
+what I did on my system.  Here's the results I got what a few
+filesystems that were readily available to me.  Note that with NTFS,
+even though the FS is on an SSD, the performance was much worse.
+This, I would guess, is largely due to the driver being quite
+unoptimized (e.g. NTFS can perform well).
+
+** Tests with ext4 FS **
+== Write/Delete Benchmark ==
+NF = 100000
+randomized = false
+time: 1.295 secs
+
+== Write/Delete Benchmark ==
+NF = 100000
+randomized = true
+time: 1.426 secs
+
+
+** Tests with tmpfs FS **
+== Write/Delete Benchmark ==
+NF = 100000
+randomized = false
+time: 0.373 secs
+
+== Write/Delete Benchmark ==
+NF = 100000
+randomized = true
+time: 0.416 secs
+
+
+** Tests with ntfs4 FS **
+== Write/Delete Benchmark ==
+NF = 100000
+randomized = false
+time: 16.803 secs
+
+== Write/Delete Benchmark ==
+NF = 100000
+randomized = true
+time: 16.378 secs
