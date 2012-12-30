@@ -1,0 +1,3 @@
+env = Environment(CFLAGS='-g')
+env.Program('prog_stattest', 'exercise2_stattest.c')
+env.Program('prog_tstat', 'exercise3_tstat.c')

@@ -188,11 +188,53 @@ $ ./ex1ctest.sh
 Do you expect any of a file's three timestamps to be changed by the
 stat() system call?  If not, explain why?
 
+** Answer **
+A file's three timestamps are
+ - st_atime: Time of last file access
+ - st_mtime: Time of last file modification
+ - st_ctime: Time of last status change
+
+Accessing a file's metadata via stat() seems unlikely to change any of
+these entries.  stat() just access information in the inode, not in
+the file itself.
+
+This is confirmed by the results of exercise2_stattest.c:
+
+  == Initial Stat ==
+  st_atime: 1356847530
+  st_mtime: 1356847529
+  st_ctime: 1356847529
+
+  ... Waiting 2 seconds ...
+
+  == After First stat() call ==
+  st_atime: 1356847530
+  st_mtime: 1356847529
+  st_ctime: 1356847529
+
+
 == Exercise 15-3 ==
 ** Question **
 On a system running Linux 2.6, modify the program in Listing 15-1
 (t_stat.c) so that the file timestamps are displayed with nanosecond
 accuracy.
+
+** Answer **
+See exercise3_tstat.c.
+
+$ ./prog_tstat ch15-exercises.txt
+File type:                regular file
+Device containing i-node: major=8   minor=21
+I-node number:            15610057
+Mode:                     100664
+Number of (hard) links:   1
+Ownership:                UID=1000   GID=1000
+File size:                6263 bytes
+Optimal I/O block size:   4096 bytes
+512B blocks allocated:    16
+Last file access:         Sat Dec 29 23:49:57.702632926 2012
+Last file modification:   Sun Dec 30 00:06:25.882630582 2012
+Last status change:       Sun Dec 30 00:06:25.882630582 2012
 
 == Exercise 15-4 ==
 ** Question **
@@ -201,13 +243,13 @@ user and group IDs.  Write a corresponding function that performs the
 checks according to the perocess's effective user and group IDs.
 
 == Exercise 15-5 ==
-** Answer **
+** Question **
 As noted in Section 15.4.6, umask() always sets the process umask and,
 at the same time, returns a copy of the old umask.  How can we obtain
 a copy of the current process umask while leaving it unchanged?
 
 == Exercise 15-6 ==
-** Answer **
+** Question **
 The chmod a+rX file command enables read permission for all categories
 of user, and likewise enableds execute permission for all categories
 of user if file is a directory or execute permission is enabled for
@@ -220,7 +262,7 @@ Write a program that uses stat() and chmod() to perform the equivalent
 of chmod a+rX
 
 == Exercise 15-7 ==
-** Answer **
+** Question **
 Write a simple version of the chattr(1) command, which modifies file
 i-node flags.   See the chattr(1) man page for details of the chattr
 command-line interface.  (You don't need to implement the -R, -V, and
