@@ -21,6 +21,32 @@ write programs to verify or answer the following:
 
 ** Answer **
 
+Part A
+------
+
+  $ ./ex1atest.sh 
+  ----rwxrwx 1 posborne posborne 4 Dec 29 16:18 test/ex1a_testfile.txt
+  cat: test/ex1a_testfile.txt: Permission denied
+
+Part B
+------
+
+  $ ./ex1btest.sh
+  ls: cannot access test/b: Permission denied
+  ls: cannot access test/a: Permission denied
+  ls: cannot access test/..: Permission denied
+  ls: cannot access test/.: Permission denied
+  total 0
+  d????????? ? ? ? ?            ? .
+  d????????? ? ? ? ?            ? ..
+  -????????? ? ? ? ?            ? a
+  -????????? ? ? ? ?            ? b
+  cat: test/a: Permission denied
+  cat: test/b: Permission denied
+
+Part C
+------
+
 $ ./ex1ctest.sh 
 == +rwx, - ==
    create: PASS
@@ -156,47 +182,6 @@ $ ./ex1ctest.sh
    xw -> x:		----
    xw -> rwxt:		PASS
    x -> rwxt:		----
-
-Part A
-------
-
-  $ ./ex1atest.sh 
-  ----rwxrwx 1 posborne posborne 4 Dec 29 16:18 test/ex1a_testfile.txt
-  cat: test/ex1a_testfile.txt: Permission denied
-
-Part B
-------
-
-  $ ./ex1btest.sh
-  ls: cannot access test/b: Permission denied
-  ls: cannot access test/a: Permission denied
-  ls: cannot access test/..: Permission denied
-  ls: cannot access test/.: Permission denied
-  total 0
-  d????????? ? ? ? ?            ? .
-  d????????? ? ? ? ?            ? ..
-  -????????? ? ? ? ?            ? a
-  -????????? ? ? ? ?            ? b
-  cat: test/a: Permission denied
-  cat: test/b: Permission denied
-
-Part C
-------
-
-To create a file in a directory, write and execute permissions are
-required:
-
-  == Permissions required to create file ==
-  mkdir: cannot create directory `test/xw': File exists
-  [rwx...0]
-  [rw... 1]
-  [rx... 1]
-  [xw... 0]
-  [xr... 1]
-  [x...	 1]
-  [r...	 1]
-  [w...	 1]
-
 
 
 == Exercise 15-2 ==
