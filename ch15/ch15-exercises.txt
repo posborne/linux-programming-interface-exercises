@@ -240,7 +240,11 @@ Last status change:       Sun Dec 30 00:06:25.882630582 2012
 ** Question **
 The access() system call checks permissions using the process's real
 user and group IDs.  Write a corresponding function that performs the
-checks according to the perocess's effective user and group IDs.
+checks according to the process's effective user and group IDs.
+
+** Answer **
+TODO: easiest way probably involves temporarily setting the real user
+id and real group id to the effective for a period of time.
 
 == Exercise 15-5 ==
 ** Question **
@@ -248,11 +252,18 @@ As noted in Section 15.4.6, umask() always sets the process umask and,
 at the same time, returns a copy of the old umask.  How can we obtain
 a copy of the current process umask while leaving it unchanged?
 
+** Answer **
+This can be done by calling umask() twice.  That is:
+
+   mode_t my_umask;
+   my_umask = umask(0); /* clear temporarily */
+   umask(my_umask); /* set it back */
+
 == Exercise 15-6 ==
 ** Question **
 The chmod a+rX file command enables read permission for all categories
-of user, and likewise enableds execute permission for all categories
-of user if file is a directory or execute permission is enabled for
+of user, and likewise enables execute permission for all categories
+of user if the file is a directory or execute permission is enabled for
 any of the user categories for file, as demonstrated in the following
 example:
 
@@ -261,6 +272,9 @@ example:
 Write a program that uses stat() and chmod() to perform the equivalent
 of chmod a+rX
 
+** Answer **
+TODO
+
 == Exercise 15-7 ==
 ** Question **
 Write a simple version of the chattr(1) command, which modifies file
@@ -268,3 +282,5 @@ i-node flags.   See the chattr(1) man page for details of the chattr
 command-line interface.  (You don't need to implement the -R, -V, and
 -v options.)
 
+** Answer **
+TODO
