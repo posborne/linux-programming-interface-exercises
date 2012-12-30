@@ -183,7 +183,6 @@ $ ./ex1ctest.sh
    xw -> rwxt:		PASS
    x -> rwxt:		----
 
-
 == Exercise 15-2 ==
 ** Question **
 Do you expect any of a file's three timestamps to be changed by the

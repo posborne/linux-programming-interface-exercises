@@ -16,7 +16,8 @@ function run_test_on {
     echo "test" > "$dir/f3"
     echo "test" > "$dirt/f"
     chmod "u+$1" "$dir"
-    chmod "u+$1t" "$dirt"
+    chmod "u+$1" "$dirt"
+    chmod "+t" "$dirt"
     chmod "u-$2" "$dir"
     chmod "u-$2" "$dirt"
 
