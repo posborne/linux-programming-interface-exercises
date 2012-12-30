@@ -1,0 +1,244 @@
+== Exercise 15-1 ==
+** Question **
+Section 15.4 contained several statement about the permissions
+required for various file-system operations.  Use shell commands or
+write programs to verify or answer the following:
+
+  a) Removing all owner permissions from a file denies the file owner
+     access, even though group and other do have access.
+  b) On a directory with read permission but not execute permission, the
+     names of files in the directory can be listed, but the files
+     themselves can't be accessed, regardless of the permissions on
+     them.
+  c) What permissions are required on the parent directory and the file
+     itself in order to create a new file, open a file for reading, open
+     a file for writing, and delete a file?  What permissions are
+     required on the source and target directory to rename a file? If
+     the target file of a rename operation already exists, what
+     permissions are required on that file?  How does setting the sticky
+     permission bit (chmod +t) of a directory affect renaming and
+     deletion operations.
+
+** Answer **
+
+$ ./ex1ctest.sh 
+== +rwx, - ==
+   create: PASS
+   read:   PASS
+   write:  PASS
+   delete: PASS
+   delt:   PASS
+== +rw, -x ==
+   create: ----
+   read:   PASS
+   write:  ----
+   delete: ----
+   delt:   ----
+== +rx, -w ==
+   create: ----
+   read:   PASS
+   write:  PASS
+   delete: ----
+   delt:   ----
+== +xw, -r ==
+   create: PASS
+   read:   PASS
+   write:  PASS
+   delete: PASS
+   delt:   PASS
+== +x, -rw ==
+   create: ----
+   read:   PASS
+   write:  PASS
+   delete: ----
+   delt:   ----
+== +w, -rx ==
+   create: ----
+   read:   PASS
+   write:  ----
+   delete: ----
+   delt:   ----
+== +r, -wx ==
+   create: ----
+   read:   PASS
+   write:  ----
+   delete: ----
+   delt:   ----
+== Rename Tests ==
+   rx -> xt:		----
+   rx -> r:		----
+   rx -> rt:		----
+   rx -> rwt:		----
+   rx -> wt:		----
+   rx -> w:		----
+   rx -> rwx:		----
+   rx -> xwt:		----
+   rx -> rw:		----
+   rx -> rxt:		----
+   rx -> xw:		----
+   rx -> x:		----
+   rx -> rwxt:		----
+   xt -> r:		----
+   xt -> rt:		----
+   xt -> rwt:		----
+   xt -> wt:		----
+   xt -> w:		----
+   xt -> rwx:		----
+   xt -> xwt:		----
+   xt -> rw:		----
+   xt -> rxt:		----
+   xt -> xw:		----
+   xt -> x:		----
+   xt -> rwxt:		----
+   r -> rt:		----
+   r -> rwt:		----
+   r -> wt:		----
+   r -> w:		----
+   r -> rwx:		----
+   r -> xwt:		----
+   r -> rw:		----
+   r -> rxt:		----
+   r -> xw:		----
+   r -> x:		----
+   r -> rwxt:		----
+   rt -> rwt:		----
+   rt -> wt:		----
+   rt -> w:		----
+   rt -> rwx:		----
+   rt -> xwt:		----
+   rt -> rw:		----
+   rt -> rxt:		----
+   rt -> xw:		----
+   rt -> x:		----
+   rt -> rwxt:		----
+   rwt -> wt:		----
+   rwt -> w:		----
+   rwt -> rwx:		----
+   rwt -> xwt:		----
+   rwt -> rw:		----
+   rwt -> rxt:		----
+   rwt -> xw:		----
+   rwt -> x:		----
+   rwt -> rwxt:		----
+   wt -> w:		----
+   wt -> rwx:		----
+   wt -> xwt:		----
+   wt -> rw:		----
+   wt -> rxt:		----
+   wt -> xw:		----
+   wt -> x:		----
+   wt -> rwxt:		----
+   w -> rwx:		----
+   w -> xwt:		----
+   w -> rw:		----
+   w -> rxt:		----
+   w -> xw:		----
+   w -> x:		----
+   w -> rwxt:		----
+   rwx -> xwt:		PASS
+   rwx -> rw:		----
+   rwx -> rxt:		----
+   rwx -> xw:		PASS
+   rwx -> x:		----
+   rwx -> rwxt:		PASS
+   xwt -> rw:		----
+   xwt -> rxt:		----
+   xwt -> xw:		----
+   xwt -> x:		----
+   xwt -> rwxt:		----
+   rw -> rxt:		----
+   rw -> xw:		----
+   rw -> x:		----
+   rw -> rwxt:		----
+   rxt -> xw:		----
+   rxt -> x:		----
+   rxt -> rwxt:		----
+   xw -> x:		----
+   xw -> rwxt:		PASS
+   x -> rwxt:		----
+
+Part A
+------
+
+  $ ./ex1atest.sh 
+  ----rwxrwx 1 posborne posborne 4 Dec 29 16:18 test/ex1a_testfile.txt
+  cat: test/ex1a_testfile.txt: Permission denied
+
+Part B
+------
+
+  $ ./ex1btest.sh
+  ls: cannot access test/b: Permission denied
+  ls: cannot access test/a: Permission denied
+  ls: cannot access test/..: Permission denied
+  ls: cannot access test/.: Permission denied
+  total 0
+  d????????? ? ? ? ?            ? .
+  d????????? ? ? ? ?            ? ..
+  -????????? ? ? ? ?            ? a
+  -????????? ? ? ? ?            ? b
+  cat: test/a: Permission denied
+  cat: test/b: Permission denied
+
+Part C
+------
+
+To create a file in a directory, write and execute permissions are
+required:
+
+  == Permissions required to create file ==
+  mkdir: cannot create directory `test/xw': File exists
+  [rwx...0]
+  [rw... 1]
+  [rx... 1]
+  [xw... 0]
+  [xr... 1]
+  [x...	 1]
+  [r...	 1]
+  [w...	 1]
+
+
+
+== Exercise 15-2 ==
+** Question **
+Do you expect any of a file's three timestamps to be changed by the
+stat() system call?  If not, explain why?
+
+== Exercise 15-3 ==
+** Question **
+On a system running Linux 2.6, modify the program in Listing 15-1
+(t_stat.c) so that the file timestamps are displayed with nanosecond
+accuracy.
+
+== Exercise 15-4 ==
+** Question **
+The access() system call checks permissions using the process's real
+user and group IDs.  Write a corresponding function that performs the
+checks according to the perocess's effective user and group IDs.
+
+== Exercise 15-5 ==
+** Answer **
+As noted in Section 15.4.6, umask() always sets the process umask and,
+at the same time, returns a copy of the old umask.  How can we obtain
+a copy of the current process umask while leaving it unchanged?
+
+== Exercise 15-6 ==
+** Answer **
+The chmod a+rX file command enables read permission for all categories
+of user, and likewise enableds execute permission for all categories
+of user if file is a directory or execute permission is enabled for
+any of the user categories for file, as demonstrated in the following
+example:
+
+  (...)
+
+Write a program that uses stat() and chmod() to perform the equivalent
+of chmod a+rX
+
+== Exercise 15-7 ==
+** Answer **
+Write a simple version of the chattr(1) command, which modifies file
+i-node flags.   See the chattr(1) man page for details of the chattr
+command-line interface.  (You don't need to implement the -R, -V, and
+-v options.)
+
