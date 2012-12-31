@@ -1,0 +1,2 @@
+env = Environment(CFLAGS='-g')
+env.Program('prog_setfattr', 'setfattr.c')
