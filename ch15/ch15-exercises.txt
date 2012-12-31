@@ -273,7 +273,19 @@ Write a program that uses stat() and chmod() to perform the equivalent
 of chmod a+rX
 
 ** Answer **
-TODO
+See exercsise6_chmod.c.
+
+Example::
+
+  $ ls -ld testex6/*
+  dr--------   2 posborne       posborne     4096 Dec 30 20:43 testex6/dir/
+  -r--------   1 posborne       posborne        0 Dec 30 20:43 testex6/file
+  -r-x------   1 posborne       posborne        0 Dec 30 20:43 testex6/prog
+  $ ./prog_chmod testex6/*
+  $ ls -ld testex6/*
+  dr-xr-xr-x   2 posborne       posborne     4096 Dec 30 20:43 testex6/dir/
+  -r-xr-x--x   1 posborne       posborne        0 Dec 30 20:43 testex6/file
+  -r-xr-x--x   1 posborne       posborne        0 Dec 30 20:43 testex6/prog
 
 == Exercise 15-7 ==
 ** Question **
@@ -283,4 +295,19 @@ command-line interface.  (You don't need to implement the -R, -V, and
 -v options.)
 
 ** Answer **
-TODO
+See chattr.c for an implementation.
+
+  $ touch test.txt
+  $ lsattr test.txt
+  -------------e- test.txt
+  $ ./prog_chattr +suActe test.txt
+  $ lsattr test.txt
+  su-----Ac--t-e- test.txt
+  $./prog_chattr -suA test.txt
+  $ lsattr test.txt
+  --------c--t-e- test.txt
+  $ ./prog_chattr =e test.txt
+  $ lsattr test.txt
+  -------------e- test.txt
+
+

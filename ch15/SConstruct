@@ -1,3 +1,5 @@
 env = Environment(CFLAGS='-g')
 env.Program('prog_stattest', 'exercise2_stattest.c')
 env.Program('prog_tstat', 'exercise3_tstat.c')
+env.Program('prog_chmod', 'exercise6_chmod.c')
+env.Program('prog_chattr', 'chattr.c')
