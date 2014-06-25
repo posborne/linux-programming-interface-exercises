@@ -4,7 +4,7 @@ Chapter 17: Access Control Lists
 Exercise 17-1
 -------------
 
-** Question **
+**Question**
 
 Write a program that displays the permissions from the ACL entry that
 corresponds to a particular user or group.  The program should take
@@ -17,7 +17,7 @@ given user or group falls into the group class, then the program
 should additionally display the permissions that would apply after
 the ACL entry has been modified by the ACL mask entry.
 
-** Answer **
+**Answer**
 
 []
 

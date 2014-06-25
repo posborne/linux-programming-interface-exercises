@@ -4,7 +4,7 @@ Chapter 12: System and Process Information
 Exercise 12-1
 -------------
 
-** Question **
+**Question**
 
 Write a program that lists the porcess ID and command name for all
 processes being run by the user named in the program's command-line
@@ -18,7 +18,7 @@ Make sure your porgram correctly handles the possibility that a
 determines that the directory exists and the time that it tries to
 open the corresponding /proc/PID/status file.
 
-** Answer **
+**Answer**
 
 See proclist.c.  Example Output:
 
@@ -122,7 +122,7 @@ See proclist.c.  Example Output:
 Exercise 12-2
 -------------
 
-** Question **
+**Question**
 
 Write a program that draws a tree showing the hierarchical
 parent-child relationships of all processes on the system, going all
@@ -135,7 +135,7 @@ the system can be found by inspecing the PPid: line of all of the
 possibilty that a process's parent (and thus its /proc/PID directory)
 disappears during the scan of all /proc/PID directories.
 
-** Answer **
+**Answer**
 
 See pstree.c.  Example output:
 
@@ -277,7 +277,7 @@ init (pid: 1, ppid: 0)
 Exercise 12-3
 -------------
 
-** Question **
+**Question**
 
 Write a program that lists all processes that have a particular file
 pathname open.  This can be achieved by inspecting the contents of all
@@ -287,7 +287,7 @@ contents of all /proc/PID/fd entries within each /proc/PID directory.
 To read the contents of a /proc/PID/fd/n symbolic link requires the
 use of readlink(), described in Section 18.5.
 
-** Answer **
+**Answer**
 
 See sherlock.c (haha, clever)...
 

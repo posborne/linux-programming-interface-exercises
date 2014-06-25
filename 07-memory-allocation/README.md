@@ -4,7 +4,7 @@ Chapter 07: Memory Allocation
 Exercise 7-1
 ------------
 
-** Question **
+**Question**
 
 Modify the program in Listing 7-1 (free_and_sbrk.c) to print out the
 current value of the program break after each execution of malloc().
@@ -13,7 +13,7 @@ demonstrate that malloc() doesn't employ sbrk() to adjust the program
 break on each call, but instead periodically allocates larger chunks
 of memory from which it passees back small pieces to the caller.
 
-** Answer **
+**Answer**
 
 The source is in free_and_sbrk_7_1.  Here's an example run:
 
@@ -68,10 +68,10 @@ The source is in free_and_sbrk_7_1.  Here's an example run:
 Exercise 7-2
 ------------
 
-** Question **
+**Question**
 
 (Advanced) Implement malloc() and free().
 
-** Answer **
+**Answer**
 
 See po_malloc_free.c for a reference implementation.

@@ -4,7 +4,7 @@ Chapter 15: File Attributes
 Exercise 15-1
 -------------
 
-** Question **
+**Question**
 
 Section 15.4 contained several statement about the permissions
 required for various file-system operations.  Use shell commands or
@@ -25,7 +25,7 @@ write programs to verify or answer the following:
      permission bit (chmod +t) of a directory affect renaming and
      deletion operations.
 
-** Answer **
+**Answer**
 
 ### Part A
 
@@ -194,12 +194,12 @@ $ ./ex1ctest.sh
 Exercise 15-2
 -------------
 
-** Question **
+**Question**
 
 Do you expect any of a file's three timestamps to be changed by the
 stat() system call?  If not, explain why?
 
-** Answer **
+**Answer**
 
 A file's three timestamps are
  - st_atime: Time of last file access
@@ -229,13 +229,13 @@ This is confirmed by the results of exercise2_stattest.c:
 Exercise 15-3
 -------------
 
-** Question **
+**Question**
 
 On a system running Linux 2.6, modify the program in Listing 15-1
 (t_stat.c) so that the file timestamps are displayed with nanosecond
 accuracy.
 
-** Answer **
+**Answer**
 See exercise3_tstat.c.
 
 ```
@@ -257,13 +257,13 @@ Last status change:       Sun Dec 30 00:06:25.882630582 2012
 Exercise 15-4
 --------------
 
-** Question **
+**Question**
 
 The access() system call checks permissions using the process's real
 user and group IDs.  Write a corresponding function that performs the
 checks according to the process's effective user and group IDs.
 
-** Answer **
+**Answer**
 
 TODO: easiest way probably involves temporarily setting the real user
 id and real group id to the effective for a period of time.
@@ -271,13 +271,13 @@ id and real group id to the effective for a period of time.
 Exercise 15-5
 -------------
 
-** Question **
+**Question**
 
 As noted in Section 15.4.6, umask() always sets the process umask and,
 at the same time, returns a copy of the old umask.  How can we obtain
 a copy of the current process umask while leaving it unchanged?
 
-** Answer **
+**Answer**
 
 This can be done by calling umask() twice.  That is:
 
@@ -288,7 +288,7 @@ This can be done by calling umask() twice.  That is:
 Exercise 15-6
 -------------
 
-** Question **
+**Question**
 
 The chmod a+rX file command enables read permission for all categories
 of user, and likewise enables execute permission for all categories
@@ -301,7 +301,7 @@ example:
 Write a program that uses stat() and chmod() to perform the equivalent
 of chmod a+rX
 
-** Answer **
+**Answer**
 
 See exercsise6_chmod.c.
 
@@ -322,14 +322,14 @@ Example:
 Exercise 15-7
 -------------
 
-** Question **
+**Question**
 
 Write a simple version of the chattr(1) command, which modifies file
 i-node flags.   See the chattr(1) man page for details of the chattr
 command-line interface.  (You don't need to implement the -R, -V, and
 -v options.)
 
-** Answer **
+**Answer**
 
 See chattr.c for an implementation.
 

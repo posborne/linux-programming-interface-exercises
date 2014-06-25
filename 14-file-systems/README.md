@@ -4,7 +4,7 @@ Chapter 14: File Systems
 Exercise 14-1
 -------------
 
-** Question **
+**Question**
 
 Write a program that measures the time required to create and then
 remove a large number of 1-byte files from a single directory.  The
@@ -23,7 +23,7 @@ change if the files are created in increasing numerical order
 order?  If so, what do you think the reason(s) might be?  Again, do
 the results var across file-system types?
 
-** Answer **
+**Answer**
 
 The source for this one is in benchmarkwrites.c.  See runtests.sh for
 what I did on my system.  Here's the results I got what a few

@@ -4,12 +4,12 @@ Chapter 13: File I/O Buffering
 Exercise 13-1
 -------------
 
-** Question **
+**Question**
 
 Using the time built-in command of the shell, try timing the operation
 of the program in Listing 4-1 (copy.c) on your system.
 
-** Answer **
+**Answer**
 
 (a) Experiment with different file and buffer sizes.  You can set the
 buffer size using the -DBUF_SIZE=nbytes option when compiling the
@@ -39,13 +39,13 @@ trendsw the same when going from small to large buffer sizes?
 Exercise 13-2
 -------------
 
-** Question **
+**Question**
 
 Time the operation of the filebuff/write_bytes.c program (provided in
 the source code distribution for this book) for various buffer sizes
 and file systems.
 
-** Answer **
+**Answer**
 
 Here's the output from the tests in ./run_write_test.sh as generated
 by the build with a few different params.
@@ -63,14 +63,14 @@ by the build with a few different params.
 Exercise 13-3
 -------------
 
-** Question **
+**Question**
 
 What is the effect ofthe followin statements?
 
      fflush(fp);
      fsync(fileno(fp));
 
-** Answer **
+**Answer**
 
 These commands will ensure that all bytes that have been written to a
 stream will be flushed into kernel buffers and subsequently written to
@@ -80,7 +80,7 @@ all writes have been written (for this open file).
 Exercise 13-4
 -------------
 
-** Question **
+**Question**
 
 Explain why the output of the following code differs depending on
 whether standard output is redirected to a terminal or to a disk file.
@@ -88,7 +88,7 @@ whether standard output is redirected to a terminal or to a disk file.
     printf("If I had more time, \n");
     write(STDOUT_FILENO, "I would have written you a shorter letter.\n", 43);
 
-** Answer **
+**Answer**
 
 Different file types handle buffered IO in different ways.  Calls to
 write() are not bufferd (by libc printf) but calls to printf may be
@@ -99,7 +99,7 @@ process exits.  Write calls are written immediately.
 Exercise 13-5
 -------------
 
-** Question **
+**Question**
 
 The command `tail [ -n num ] file` prints the last `num` lines (ten by
 default) of the named file.  Implement this command using I/O system
@@ -107,6 +107,6 @@ calls (lseek() , read(), write(), and so on).  Keep in mind the
 buffering issues described in this chapter, in order to make the
 implementation efficient.
 
-** Answer **
+**Answer**
 
 See `tail.c`

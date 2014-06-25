@@ -4,14 +4,14 @@ Chapter 06: Processes
 Exercise 6-1
 ------------
 
-** Question **
+**Question**
 
 Compile the program in Listing 6-1 (mem_segments.c), and list its size
 using ls -l.  Although the program contains an array (mbuf) that is
 around 10 MB in size, the executable file is much smaller than this.
 Why is this?
 
-** Answer **
+**Answer**
 
 'ls -l' just shows the size of the stored artifacts for a program that
 are stored on disk, not what actually gets put into memory.  The items
@@ -24,12 +24,12 @@ the process memory map.
 Exercise 6-2
 ------------
 
-** Question **
+**Question**
 
 Write a program to see what happens if we try to longjmp() into a
 function that has already returned.
 
-** Answer **
+**Answer**
 
 See longjmp_retfunc.c.  Here's the results of executing the resultant
 program:
@@ -53,7 +53,7 @@ program:
 Exercise 6-3
 ------------
 
-** Question **
+**Question**
 
 Implement setenv() and unsetenv() using getenv(), putenv(), and, where
 necessary, code that directly modifies environ.  Your version of
@@ -61,7 +61,7 @@ unsetenv() should check to see whether there are multiple definitions
 of an environment variable, and remove them all (which is what the
 glibc version of unsetenv() does).
 
-** Answer **
+**Answer**
 
 See myenviron.c.
 

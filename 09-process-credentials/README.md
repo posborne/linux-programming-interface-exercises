@@ -4,13 +4,13 @@ Chapter 09: Process Credentials
 Exercise 9-1
 ------------
 
-** Question **
+**Question**
 
 Assume in each of the following cases that the initial set of process
 user IDs is real=1000 effective=0 saved=0 file-system=0.  What would
 be the state of the user IDs after the following calls? [in answers]
 
-** Answer **
+**Answer**
 
 A few notes to frame the answers here: the effective userID is root
 but the real is not (e.g. sudo or similar).
@@ -38,14 +38,14 @@ but the real is not (e.g. sudo or similar).
 Exercise 9-2
 ------------
 
-** Question **
+**Question**
 
 Is a process with the following user IDs privileged?  Explain your
 answer?
 
     real=0, effective=1000, saved=1000, file-system=1000
 
-** Answer **
+**Answer**
 
 "Not really."  Since the effective userID is not privileged, the
 process is not privileged.  That being said, it could easily be made
@@ -55,21 +55,21 @@ uid back to the real uid.
 Exercise 9-3
 ------------
 
-** Question **
+**Question**
 
 Implement initgroups() using setgroups() and library functions for
 retrieving information from the password and group files (Section
 8.4).  Remember that a process must be privileged in order to be able
 to call setgroups().
 
-** Answer **
+**Answer**
 
 See initgroups.c.
 
 Exercise 9-4
 ------------
 
-** Question **
+**Question**
 
 If a process whose user IDs all have the value X execute a set-user-ID
 program whose ID, Y, is nonzero, then thep rocess credential are set
@@ -94,7 +94,7 @@ retrieve theh process's real and effective user IDs.)_  Note that for
 certain of the system calls listed above, some of these operations
 can't be performed.
 
-** Answer **
+**Answer**
 
 ```
 eff_uid = geteuid();
@@ -123,7 +123,7 @@ setresuid(getuid(), getuid(), getuid()); /* drop permanently */
 Exercise 9-5
 ------------
 
-** Question **
+**Question**
 
 Repeat the previous exercise for a process executing a
 set-user-ID-root program, which has the following initial set of
@@ -131,7 +131,7 @@ process cerdentials:
 
     real=X effective=0 saved=0
 
-** Answer **
+**Answer**
 
 ```
 // setuid()
