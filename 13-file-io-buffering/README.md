@@ -1,5 +1,11 @@
-== Exercise 13-1 ==
+Chapter 13: File I/O Buffering
+==============================
+
+Exercise 13-1
+-------------
+
 ** Question **
+
 Using the time built-in command of the shell, try timing the operation
 of the program in Listing 4-1 (copy.c) on your system.
 
@@ -30,8 +36,11 @@ trendsw the same when going from small to large buffer sizes?
     workload.  Readahead can be terrible in some cases (EEPROM).  Even
     broken sometimes.
 
-== Exercise 13-2 ==
+Exercise 13-2
+-------------
+
 ** Question **
+
 Time the operation of the filebuff/write_bytes.c program (provided in
 the source code distribution for this book) for various buffer sizes
 and file systems.
@@ -41,18 +50,21 @@ and file systems.
 Here's the output from the tests in ./run_write_test.sh as generated
 by the build with a few different params.
 
-   == write_bytes tests ==
-   ./prog_write_bytes testfile3.txt 10000000 10
-   time: 0.457s
-   ./prog_write_bytes testfile3.txt 10000000 512
-   time: 0.013s
-   ./prog_write_bytes testfile3.txt 10000000 1024
-   time: 0.008s
-   ./prog_write_bytes testfile3.txt 10000000 10000
-   time: 0.005s
+     == write_bytes tests ==
+     ./prog_write_bytes testfile3.txt 10000000 10
+     time: 0.457s
+     ./prog_write_bytes testfile3.txt 10000000 512
+     time: 0.013s
+     ./prog_write_bytes testfile3.txt 10000000 1024
+     time: 0.008s
+     ./prog_write_bytes testfile3.txt 10000000 10000
+     time: 0.005s
 
-== Exercise 13-3 ==
+Exercise 13-3
+-------------
+
 ** Question **
+
 What is the effect ofthe followin statements?
 
      fflush(fp);
@@ -65,8 +77,11 @@ stream will be flushed into kernel buffers and subsequently written to
 disk before program execution continues.  Basically, it ensure that
 all writes have been written (for this open file).
 
-== Exercise 13-4 ==
+Exercise 13-4
+-------------
+
 ** Question **
+
 Explain why the output of the following code differs depending on
 whether standard output is redirected to a terminal or to a disk file.
 
@@ -74,14 +89,18 @@ whether standard output is redirected to a terminal or to a disk file.
     write(STDOUT_FILENO, "I would have written you a shorter letter.\n", 43);
 
 ** Answer **
+
 Different file types handle buffered IO in different ways.  Calls to
 write() are not bufferd (by libc printf) but calls to printf may be
 depending on where stdout is directed.  In particular, when flushed to
 file, IO is done in terms of blocks and stdio is not flushed until the
 process exits.  Write calls are written immediately.
 
-== Exercise 13-5 ==
+Exercise 13-5
+-------------
+
 ** Question **
+
 The command `tail [ -n num ] file` prints the last `num` lines (ten by
 default) of the named file.  Implement this command using I/O system
 calls (lseek() , read(), write(), and so on).  Keep in mind the
@@ -89,4 +108,5 @@ buffering issues described in this chapter, in order to make the
 implementation efficient.
 
 ** Answer **
+
 See `tail.c`

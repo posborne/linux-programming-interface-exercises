@@ -1,16 +1,28 @@
-== Exercise 11-1 ==
+Chapter 11: System Limits and Options
+=====================================
+
+Exercise 11-1
+-------------
+
 ** Question **
+
 Try running the program in List 11-1 on other UNIX implmeentation if
 you have access to them.
 
 ** Answer **
+
 (No access to other UNIX implementations at this time...)
 
-== Exercise 11-2 ==
+Exercise 11-2
+-------------
+
 ** Question **
+
 Try running the program in listing 11-2 on other file systems.
 
 ** Answer **
+
+```
 == STDIN ==
 _PC_NAME_MAX:  255
 _PC_PATH_MAX:  4096
@@ -21,3 +33,4 @@ _PC_NAME_MAX:  255
 _PC_PATH_MAX:  4096
 _PC_PIPE_BUF:  4096
 
+```

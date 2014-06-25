@@ -1,5 +1,11 @@
-== Exercise 17-1 ==
+Chapter 17: Access Control Lists
+================================
+
+Exercise 17-1
+-------------
+
 ** Question **
+
 Write a program that displays the permissions from the ACL entry that
 corresponds to a particular user or group.  The program should take
 two command-line arguments.  The first argument is iether of the
@@ -12,5 +18,6 @@ should additionally display the permissions that would apply after
 the ACL entry has been modified by the ACL mask entry.
 
 ** Answer **
+
 []
 

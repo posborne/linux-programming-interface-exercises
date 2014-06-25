@@ -1,5 +1,11 @@
-== Exercise 15-1 ==
+Chapter 15: File Attributes
+===========================
+
+Exercise 15-1
+-------------
+
 ** Question **
+
 Section 15.4 contained several statement about the permissions
 required for various file-system operations.  Use shell commands or
 write programs to verify or answer the following:
@@ -21,16 +27,17 @@ write programs to verify or answer the following:
 
 ** Answer **
 
-Part A
-------
+### Part A
 
+```
   $ ./ex1atest.sh 
   ----rwxrwx 1 posborne posborne 4 Dec 29 16:18 test/ex1a_testfile.txt
   cat: test/ex1a_testfile.txt: Permission denied
+```
 
-Part B
-------
+### Part B
 
+```
   $ ./ex1btest.sh
   ls: cannot access test/b: Permission denied
   ls: cannot access test/a: Permission denied
@@ -43,10 +50,11 @@ Part B
   -????????? ? ? ? ?            ? b
   cat: test/a: Permission denied
   cat: test/b: Permission denied
+```
 
-Part C
-------
+### Part C
 
+```
 $ ./ex1ctest.sh 
 == +rwx, - ==
    create: PASS
@@ -182,13 +190,17 @@ $ ./ex1ctest.sh
    xw -> x:		----
    xw -> rwxt:		PASS
    x -> rwxt:		----
+```
+Exercise 15-2
+-------------
 
-== Exercise 15-2 ==
 ** Question **
+
 Do you expect any of a file's three timestamps to be changed by the
 stat() system call?  If not, explain why?
 
 ** Answer **
+
 A file's three timestamps are
  - st_atime: Time of last file access
  - st_mtime: Time of last file modification
@@ -200,6 +212,7 @@ the file itself.
 
 This is confirmed by the results of exercise2_stattest.c:
 
+```
   == Initial Stat ==
   st_atime: 1356847530
   st_mtime: 1356847529
@@ -211,10 +224,13 @@ This is confirmed by the results of exercise2_stattest.c:
   st_atime: 1356847530
   st_mtime: 1356847529
   st_ctime: 1356847529
+```
 
+Exercise 15-3
+-------------
 
-== Exercise 15-3 ==
 ** Question **
+
 On a system running Linux 2.6, modify the program in Listing 15-1
 (t_stat.c) so that the file timestamps are displayed with nanosecond
 accuracy.
@@ -222,6 +238,7 @@ accuracy.
 ** Answer **
 See exercise3_tstat.c.
 
+```
 $ ./prog_tstat ch15-exercises.txt
 File type:                regular file
 Device containing i-node: major=8   minor=21
@@ -235,32 +252,44 @@ Optimal I/O block size:   4096 bytes
 Last file access:         Sat Dec 29 23:49:57.702632926 2012
 Last file modification:   Sun Dec 30 00:06:25.882630582 2012
 Last status change:       Sun Dec 30 00:06:25.882630582 2012
+```
 
-== Exercise 15-4 ==
+Exercise 15-4
+--------------
+
 ** Question **
+
 The access() system call checks permissions using the process's real
 user and group IDs.  Write a corresponding function that performs the
 checks according to the process's effective user and group IDs.
 
 ** Answer **
+
 TODO: easiest way probably involves temporarily setting the real user
 id and real group id to the effective for a period of time.
 
-== Exercise 15-5 ==
+Exercise 15-5
+-------------
+
 ** Question **
+
 As noted in Section 15.4.6, umask() always sets the process umask and,
 at the same time, returns a copy of the old umask.  How can we obtain
 a copy of the current process umask while leaving it unchanged?
 
 ** Answer **
+
 This can be done by calling umask() twice.  That is:
 
-   mode_t my_umask;
-   my_umask = umask(0); /* clear temporarily */
-   umask(my_umask); /* set it back */
+    mode_t my_umask;
+    my_umask = umask(0); /* clear temporarily */
+    umask(my_umask); /* set it back */
 
-== Exercise 15-6 ==
+Exercise 15-6
+-------------
+
 ** Question **
+
 The chmod a+rX file command enables read permission for all categories
 of user, and likewise enables execute permission for all categories
 of user if the file is a directory or execute permission is enabled for
@@ -273,10 +302,12 @@ Write a program that uses stat() and chmod() to perform the equivalent
 of chmod a+rX
 
 ** Answer **
+
 See exercsise6_chmod.c.
 
-Example::
+Example:
 
+```
   $ ls -ld testex6/*
   dr--------   2 posborne       posborne     4096 Dec 30 20:43 testex6/dir/
   -r--------   1 posborne       posborne        0 Dec 30 20:43 testex6/file
@@ -286,17 +317,23 @@ Example::
   dr-xr-xr-x   2 posborne       posborne     4096 Dec 30 20:43 testex6/dir/
   -r-xr-x--x   1 posborne       posborne        0 Dec 30 20:43 testex6/file
   -r-xr-x--x   1 posborne       posborne        0 Dec 30 20:43 testex6/prog
+```
 
-== Exercise 15-7 ==
+Exercise 15-7
+-------------
+
 ** Question **
+
 Write a simple version of the chattr(1) command, which modifies file
 i-node flags.   See the chattr(1) man page for details of the chattr
 command-line interface.  (You don't need to implement the -R, -V, and
 -v options.)
 
 ** Answer **
+
 See chattr.c for an implementation.
 
+```
   $ touch test.txt
   $ lsattr test.txt
   -------------e- test.txt
@@ -309,5 +346,4 @@ See chattr.c for an implementation.
   $ ./prog_chattr =e test.txt
   $ lsattr test.txt
   -------------e- test.txt
-
-
+```

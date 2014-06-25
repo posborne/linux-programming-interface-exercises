@@ -1,4 +1,9 @@
-== Exercise 14-1 ==
+Chapter 14: File Systems
+========================
+
+Exercise 14-1
+-------------
+
 ** Question **
 
 Write a program that measures the time required to create and then
@@ -28,6 +33,8 @@ This, I would guess, is largely due to the driver being quite
 unoptimized (e.g. NTFS can perform well).
 
 ** Tests with ext4 FS **
+
+```
 == Write/Delete Benchmark ==
 NF = 100000
 randomized = false
@@ -37,9 +44,11 @@ time: 1.295 secs
 NF = 100000
 randomized = true
 time: 1.426 secs
-
+```
 
 ** Tests with tmpfs FS **
+
+```
 == Write/Delete Benchmark ==
 NF = 100000
 randomized = false
@@ -49,9 +58,11 @@ time: 0.373 secs
 NF = 100000
 randomized = true
 time: 0.416 secs
-
+```
 
 ** Tests with ntfs4 FS **
+
+```
 == Write/Delete Benchmark ==
 NF = 100000
 randomized = false
@@ -61,3 +72,4 @@ time: 16.803 secs
 NF = 100000
 randomized = true
 time: 16.378 secs
+```

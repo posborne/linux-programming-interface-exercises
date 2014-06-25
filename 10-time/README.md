@@ -1,5 +1,11 @@
-== Exercise 10-1 ==
+Chapter 10: Time
+================
+
+Exercise 10-1
+-------------
+
 ** Question **
+
 Assume a system where the value returned by the call
 sysconf(_SC_CLK_TCK) is 100.  Assuming that the clock_t value returned
 by times()  is an unsigned 32-bit integer, how long will it take before
@@ -7,6 +13,7 @@ this value cycles so that it restarts at 0?  Perform the same
 calculation for the CLOCKS_PER_SEC value returned by clock().
 
 ** Answer **
+
 sysconf(_SC_CLK_TCK) tells us the number of ticks per second and
 times() tell us the number of ticks that have elapsed.  Given that the
 maximum value of an unsigned 32-bit integer is 4294967296, we can

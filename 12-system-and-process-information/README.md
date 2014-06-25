@@ -1,5 +1,11 @@
-== Exercise 12-1 ==
+Chapter 12: System and Process Information
+==========================================
+
+Exercise 12-1
+-------------
+
 ** Question **
+
 Write a program that lists the porcess ID and command name for all
 processes being run by the user named in the program's command-line
 argument.  (You may find the userIdFromName() function from Listing
@@ -13,8 +19,10 @@ determines that the directory exists and the time that it tries to
 open the corresponding /proc/PID/status file.
 
 ** Answer **
+
 See proclist.c.  Example Output:
 
+```
 [posborne@pobox-lin:~/Projects/linux-programming-interface-exercises/ch12 git:master] $ ./prog_proclist posborne
 22548: prog_proclist
 1105: chrome
@@ -109,8 +117,11 @@ See proclist.c.  Example Output:
 20519: chrome
 20706: emacsclient
 22548: prog_proclist
+```
 
-== Exercise 12-2 ==
+Exercise 12-2
+-------------
+
 ** Question **
 
 Write a program that draws a tree showing the hierarchical
@@ -128,6 +139,7 @@ disappears during the scan of all /proc/PID directories.
 
 See pstree.c.  Example output:
 
+```
 [posborne@pobox-lin:~/Projects/linux-programming-interface-exercises/ch12
 git:master] $ ./prog_pstree
 kthreadd (pid: 2, ppid: 0)
@@ -260,9 +272,13 @@ init (pid: 1, ppid: 0)
   udevd (pid: 515, ppid: 1)
     udevd (pid: 1499, ppid: 515)
   upstart-udev-br (pid: 508, ppid: 1)
+```
 
-== Exercise 12-3 ==
+Exercise 12-3
+-------------
+
 ** Question **
+
 Write a program that lists all processes that have a particular file
 pathname open.  This can be achieved by inspecting the contents of all
 of the /proc/PID/fd/* symbolic links.  This will require nested loops
@@ -272,10 +288,12 @@ To read the contents of a /proc/PID/fd/n symbolic link requires the
 use of readlink(), described in Section 18.5.
 
 ** Answer **
+
 See sherlock.c (haha, clever)...
 
 Example output:
 
+```
 Processes with handles to "/dev/null":
 mate-session (pid: 1658)
 dbus-launch (pid: 1696)
@@ -331,3 +349,4 @@ firefox (pid: 14552)
 plugin-containe (pid: 14587)
 mate-terminal (pid: 14721)
 marco (pid: 19678)
+```

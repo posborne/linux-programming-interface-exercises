@@ -1,13 +1,21 @@
-== Exercise 16-1 ==
+Chapter 16: Extended Attributes
+===============================
+
+Exercise 16-1
+-------------
+
 ** Question **
+
 Write a program that can be used to create or modify a user EA for a
 file (i.e., a simple version of setfattr(1)). The filename and the EA
 name and value should be supplied as command-line arguments to the
 program.
 
 ** Answer **
+
 See setfattr.c.  Example:
 
+```
   $ ./prog_setfattr -n user.x -v "Hello, world!" tfile
   $ getfattr -d tfile
   # file: tfile
@@ -15,4 +23,4 @@ See setfattr.c.  Example:
 
   $ ./prog_setfattr -x user.x tfile
   $ getfattr -d tfile
-
+```
