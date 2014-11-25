@@ -96,6 +96,8 @@ ssize_t writev(int fildes, const struct iovec *iov, int iovcnt)
 			return bytes_written;
 		} else {
 			total_bytes_written += bytes_written;
+			if (bytes_written < vec->iov_len)
+				return total_bytes_written;
 		}
 	}
 	return total_bytes_written;
@@ -164,6 +166,8 @@ ssize_t readv(int fildes, const struct iovec *iov, int iovcnt)
 			return bytes_read;
 		} else {
 			total_bytes_read += bytes_read;
+			if (bytes_read < vec->iov_len)
+				return total_bytes_read;
 		}
 	}
 
