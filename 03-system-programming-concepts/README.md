@@ -26,5 +26,5 @@ to go to this code, we want some addititional security).  The numbers
 themselves (in hexadecimal) each have clever meaning:
 
  - 0xFEE1DEAD: Feel Dead?  Self-explanatory.
- - 0x28121969: 28th of December 1969 is the birthday of Linux
+ - 0x28121969: 28th of December 1969 is the birthday of Linus
    Torvalds!
