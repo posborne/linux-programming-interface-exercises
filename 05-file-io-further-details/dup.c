@@ -100,14 +100,6 @@ int dup2(int oldfd, int newfd)
 
 	/* Hand things off to fcntl */
 	return fcntl(oldfd, F_DUPFD, newfd);
-	if (ret < 0) {
-		return ret;
-	} else if (ret != newfd) {
-		close(ret); /* this is not the newfd we are looking for */
-		return -1;
-	} else {
-		return ret;
-	}
 }
 
 #define ENABLE_TEST (1)
