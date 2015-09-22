@@ -1,2 +1,2 @@
-env = Environment(CFLAGS='-g -Wall -Werror -pedantic')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic -std=c99')
 env.Program('prog_fpath', 't_fpathconf.c')

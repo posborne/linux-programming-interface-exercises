@@ -6,9 +6,11 @@
  *
  */
 
+#define _DEFAULT_SOURCE
+
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 typedef struct block_header {
     size_t block_length;
@@ -238,7 +240,9 @@ void simple_free_test() {
 }
 
 int main(int argc, char *argv[]) {
-	simple_free_test();
+        (void)argc;
+        (void)argv;
+        simple_free_test();
 	// malloc_only_test();
 	return 0;
 }

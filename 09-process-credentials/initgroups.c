@@ -1,3 +1,5 @@
+#define _DEFAULT_SOURCE
+
 #include <grp.h>
 #include <pwd.h>
 #include <sys/types.h>

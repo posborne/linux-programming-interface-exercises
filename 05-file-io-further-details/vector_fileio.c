@@ -9,6 +9,8 @@
  *      Author: posborne
  */
 
+#define _DEFAULT_SOURCE
+
 #include <assert.h>
 #include <sys/uio.h>
 #include <limits.h>

@@ -7,6 +7,9 @@
  * To read the contents of a /proc/PID/fd/n symbolic link requires the
  * use of readlink(), described in Section 18.5.
  */
+
+#define _DEFAULT_SOURCE
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -14,6 +17,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <unistd.h>
 
 #include "proclib.h"
 

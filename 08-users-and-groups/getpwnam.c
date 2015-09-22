@@ -3,6 +3,9 @@
  * 
  * Copyright 2012, Paul Osborne <osbpau@gmail.com>
  */
+
+#define _DEFAULT_SOURCE
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <pwd.h>

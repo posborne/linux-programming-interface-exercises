@@ -18,6 +18,9 @@ Providing this output consists of two main steps:
   2) Render the tree using a recursion (pre-order traversal)
 
 */
+
+#define _DEFAULT_SOURCE
+
 #include "proclib.h"
 #include <dirent.h>
 #include <stdio.h>

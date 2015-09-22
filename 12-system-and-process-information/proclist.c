@@ -15,13 +15,17 @@ Make sure your porgram correctly handles the possibility that a
 determines that the directory exists and the time that it tries to
 open the corresponding /proc/PID/status file.
 */
-#include "proclib.h"
+
+#define _DEFAULT_SOURCE
+
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <sys/types.h>
 #include <string.h>
+#include <dirent.h>
+
+#include "proclib.h"
 
 #define PROCFS_ROOT "/proc"
 
@@ -51,6 +55,7 @@ uid_t user_id_from_name(const char *name)
 
 void print_usage(int argc, char **argv)
 {
+	(void)argc;
 	printf("Usage: %s <username>\n", argv[0]);
 }
 
@@ -81,11 +86,11 @@ int check_dir(char *dirname, uid_t uid)
 			trim(key);
 			trim(value);
 			if ((strcmp(key, "Uid") == 0) && strstr(value, uidstr) != NULL) {
-				// printf("[%s] UID=%s\n", filename, value);
+				/* printf("[%s] UID=%s\n", filename, value); */
 				keepme = 1;
 			}
 			if (strcmp(key, "Name") == 0) {
-				// printf("[%s] NAME=%s\n", filename, value);
+				/* printf("[%s] NAME=%s\n", filename, value); */
 				strcpy(procname, value);
 			}
 			if (strcmp(key, "Pid") == 0) {
