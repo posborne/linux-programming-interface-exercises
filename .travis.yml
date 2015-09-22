@@ -2,4 +2,7 @@
 # Travis CI Build/Test Configuration
 #
 language: c
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install libacl1-dev
 script: ./build.sh
