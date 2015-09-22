@@ -185,7 +185,6 @@ int do_remove_attr(char **files, int count)
 
 int main(int argc, char **argv)
 {
-	int option_index = 0;
 	parse_arguments(argc, argv);
 	validate_arguments();
 	if (name != NULL) {
