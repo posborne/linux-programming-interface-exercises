@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <getopt.h>
 #include <string.h>
+#include <ctype.h>
 
 #define BUFFER_SIZE (1024 * 5)
 #define DEFAULT_NUMBER_LINES 10

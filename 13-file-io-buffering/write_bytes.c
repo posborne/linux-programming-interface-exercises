@@ -32,6 +32,8 @@
 #include <unistd.h>
 #include <malloc.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 /* #define USE_O_SYNC 1 */
 /* #define O_SYNC 1 */
@@ -43,7 +45,7 @@
 int
 main(int argc, char *argv[])
 {
-    size_t bufSize, numBytes, thisWrite, totWritten;
+    ssize_t bufSize, numBytes, thisWrite, totWritten;
     char *buf;
     int fd, openFlags;
 
