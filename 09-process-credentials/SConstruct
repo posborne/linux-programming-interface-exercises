@@ -1,2 +1,2 @@
-env = Environment(CFLAGS='-g -Wall')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic')
 env.Program('prog_initgroups', 'initgroups.c')
