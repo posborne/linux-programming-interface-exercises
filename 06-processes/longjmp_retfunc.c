@@ -8,7 +8,7 @@
 
 static jmp_buf env;
 
-int func(int doJmpSwitch)
+void func(int doJmpSwitch)
 {
 	if (doJmpSwitch) {
 		switch (setjmp(env)) {
@@ -27,6 +27,8 @@ int func(int doJmpSwitch)
 
 int main(int argc, char *argv[])
 {
+	(void)argc;
+	(void)argv;
 	func(1);
 	func(0);
 	longjmp(env, 0);
