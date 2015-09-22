@@ -10,6 +10,7 @@
  */
 
 #define _DEFAULT_SOURCE
+#define _BSD_SOURCE
 
 #include <assert.h>
 #include <sys/uio.h>
@@ -19,6 +20,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <malloc.h>
+#include <sys/stat.h>
 
 /*
  * A custom implementation of writev without nice things like support
