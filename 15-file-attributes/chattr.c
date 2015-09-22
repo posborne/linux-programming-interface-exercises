@@ -186,7 +186,7 @@ static struct attr_table_entry*
 lookup_attr_table_entry(char attr)
 {
 	struct attr_table_entry *entry;
-	int i;
+	unsigned long i;
 	for (i = 0; i < LIST_LENGTH(fs_attrs); i++) {
 		entry = &fs_attrs[i];
 		if (entry->code == attr) {
@@ -214,8 +214,6 @@ is_valid_attr(char attr)
 static void
 validate_mode_string(char *mode_string) {
 	int len;
-	char action;
-	char c;
 	char attr;
 	int i;
 	len = strlen(mode_string);
@@ -223,7 +221,6 @@ validate_mode_string(char *mode_string) {
 		fprintf(stderr, "ERROR: Invalid mode string specified (too short)\n");
 		print_usage();
 	}
-	action = mode_string[0];
 	i = 1;
 	while ((attr = mode_string[i++]) != '\0') {
 		if (!is_valid_attr(attr)) {

@@ -1,4 +1,4 @@
-env = Environment(CFLAGS='-g')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic')
 env.Program('prog_stattest', 'exercise2_stattest.c')
 env.Program('prog_tstat', 'exercise3_tstat.c')
 env.Program('prog_chmod', 'exercise6_chmod.c')
