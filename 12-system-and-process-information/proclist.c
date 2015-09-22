@@ -63,7 +63,6 @@ int check_dir(char *dirname, uid_t uid)
 	char procname[256];
 	char pid[32];
 	int keepme;
-	char *pstr;
 	char *key;
 	char *value;
 	FILE *p_file;
@@ -75,7 +74,6 @@ int check_dir(char *dirname, uid_t uid)
 		return 1; /* just ignore, this is fine I guess */
 	}
 	keepme = 0;
-	int res;
 	while (fgets(linebuf, sizeof(linebuf), p_file) != NULL) {
 		key = strtok(linebuf, ":");
 		value = strtok(NULL, ":");
@@ -115,7 +113,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	uid = user_id_from_name(argv[1]);
-	if (uid == -1) {
+	if (uid == (uid_t)-1) {
 		printf("Invalid username specified (not found)\n");
 		return 1;
 	}

@@ -1,4 +1,4 @@
-env = Environment(CFLAGS='-g')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic')
 
 def make_prog(progname, cfile, **kwargs):
     env.Program(progname, cfile, LIBS=['proclib'], LIBPATH='.', **kwargs)
