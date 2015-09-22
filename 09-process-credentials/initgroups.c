@@ -34,7 +34,7 @@ int po_initgroups(const char *user, gid_t group)
         struct group *grp;
         char *username;
         int i, groups_idx;
-        gid_t groups[NGROUPS_MAX];
+        gid_t groups[1024];
         groups_idx = 0;
         groups[groups_idx++] = group;
         while ((grp = getgrent()) != NULL) {
@@ -52,6 +52,8 @@ int po_initgroups(const char *user, gid_t group)
 
 int main(int argc, char **argv)
 {
+        (void)argc;
+
         struct passwd *pwd;
         pwd = getpwnam(argv[1]);
         if (po_initgroups(argv[1], pwd->pw_gid) == -1) {
