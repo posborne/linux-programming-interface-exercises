@@ -13,7 +13,7 @@ show that a large file can be successfully created.
 
 **Answer**
 
-See large_file.c.  Justa dding the macro seemed to do the trick.
+See large_file.c.  Just adding the macro seemed to do the trick.
 
 Exercise 5-2
 ------------
@@ -117,6 +117,7 @@ what the content of the output file would be, and why:
     fd3 = open(file, O_RDWR);
     write(fd1, "Hello,", 6);
     write(fd2, " world", 6);
+    lseek(fd2, 0, SEEK_SET);
     write(fd1, "HELLO,", 6);
     write(fd3, "Gidday", 6);
 
@@ -154,14 +155,18 @@ be modified on fd1 and fd2 but not on fd3.
 Like the previous, affecting the offset in fd1 and fd2 but not affecting
 fd3.  File now contains "Hello, world".
 
+    >>> lseek(fd2, 0, SEEK_SET);
+
+Sets fd1 and fd2 file offset to the beggining of the file.
+
     >>> write(fd1, "HELLO,", 6);
 
-Similar, file now contains "Hello, worldHELLO,"
+File now contains "HELLO, world"
 
     >>> write(fd3, "Gidday", 6);
 
 Since the offset is not shared, this results in the following file
-contents "Gidday, worldHELLO,"
+contents "Gidday world"
 
 Exercise 5-7
 ------------
