@@ -1,0 +1,5 @@
+#
+# Travis CI Build/Test Configuration
+#
+language: c
+script: ./build.sh
