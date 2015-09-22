@@ -1,4 +1,4 @@
-env = Environment(CFLAGS='-g')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic')
 env.Program('prog_large_file', 'large_file.c')
 env.Program('prog_append_seek', 'append_seek.c')
 env.Program('prog_atomic_append', 'atomic_append.c')

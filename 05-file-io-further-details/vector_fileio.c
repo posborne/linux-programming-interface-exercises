@@ -185,10 +185,10 @@ int main(int argc, char *argv[])
 {
 	int i;
 
+	(void)argc;
+
 	/* Create buffers (malloc) */
-	for	 (i = 0; i < NUMBER_VECS; i++) {
-		int j;
-		struct iovec *vec = (struct iovec *)&write_iovecs[i];
+	for (i = 0; i < NUMBER_VECS; i++) {
 		void * mem;
 
 		mem = malloc(CHUNK_SIZE);
