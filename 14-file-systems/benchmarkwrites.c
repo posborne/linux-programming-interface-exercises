@@ -25,6 +25,7 @@
 #include <getopt.h>
 #include <string.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 /* contstants */
 #define FILE_CONTENTS "z"
@@ -91,6 +92,7 @@ static int parse_options(int argc, char **argv)
 /* print usage to stderro for the application */
 static void print_usage(int argc, char **argv)
 {
+	(void)argc;
 	fprintf(stderr, "Usage: %s [options] <directory>\n", argv[0]);
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "  -n <number_files> (Set the number of files to use in the test)\n");
@@ -101,7 +103,6 @@ static void print_usage(int argc, char **argv)
 static int runbenchmark()
 {
 	int i;
-	int file_number;
 	int fd;
 	char filepath[1024];
 	struct stat dirstat;

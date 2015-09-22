@@ -1,2 +1,2 @@
-env = Environment(CFLAGS='-g')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic -std=c99')
 env.Program('prog_setfattr', 'setfattr.c')

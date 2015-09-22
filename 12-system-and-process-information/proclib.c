@@ -1,6 +1,8 @@
 #include "proclib.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 /* In-place time of string, s, to remove whitespace */
 void trim(char * s) {

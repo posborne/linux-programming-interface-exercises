@@ -25,6 +25,7 @@
   dependencies.
 
 */
+#define _DEFAULT_SOURCE
 #define _BSD_SOURCE
 
 #define MAX_ALLOCS 1000000

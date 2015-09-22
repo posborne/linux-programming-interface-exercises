@@ -18,6 +18,10 @@ Providing this output consists of two main steps:
   2) Render the tree using a recursion (pre-order traversal)
 
 */
+
+#define _DEFAULT_SOURCE
+#define _BSD_SOURCE
+
 #include "proclib.h"
 #include <dirent.h>
 #include <stdio.h>
@@ -38,7 +42,6 @@ struct pstree_node {
 	struct pstree_node * next;
 };
 
-static struct pstree_node * pstree_root = NULL;
 static struct pstree_node * ll_head;
 
 int ll_create_and_insert(char *procname, pid_t pid, pid_t ppid)
@@ -141,6 +144,9 @@ int print_tree(struct pstree_node * root, int level)
 
 int main(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
+
 	DIR *dirp;
 	struct dirent *directory_entry;
 	char dirname[256];

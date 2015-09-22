@@ -1,12 +1,16 @@
 /*
  * Write a program that lists all processes that have a particular file
  * pathname open.  This can be achieved by inspecting the contents of all
- * of the /proc/PID/fd/* symbolic links.  This will require nested loops
+ * of the /proc/PID/fd/{} symbolic links.  This will require nested loops
  * employing readdir(3) to scan all /proc/PID directories, and then the
  * contents of all /proc/PID/fd entries within each /proc/PID directory.
  * To read the contents of a /proc/PID/fd/n symbolic link requires the
  * use of readlink(), described in Section 18.5.
  */
+
+#define _DEFAULT_SOURCE
+#define _BSD_SOURCE
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -14,11 +18,15 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <unistd.h>
+
+#include "proclib.h"
 
 #define PROCFS_ROOT "/proc"
 
 static void print_usage(int argc, char **argv)
 {
+	(void)argc;
 	fprintf(stderr, "Usage: %s <filepath>", argv[0]);
 }
 
@@ -28,7 +36,6 @@ static int print_proc(char *dirname)
 	char linebuf[256];
 	char procname[256];
 	char pid[32];
-	char ppid[32];
 	char *key;
 	char *value;
 	FILE *p_file;
@@ -59,9 +66,6 @@ static int check_process(char *dirname, char *match)
 {
 	char linkpath[256];
 	char linktarget[1024];
-	char linebuf[256];
-	char procname[256];
-	struct stat st;
 	DIR *dirp;
 	struct dirent *directory_entry;
 	int len;

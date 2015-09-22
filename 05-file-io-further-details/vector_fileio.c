@@ -9,6 +9,10 @@
  *      Author: posborne
  */
 
+#define _DEFAULT_SOURCE
+#define _BSD_SOURCE
+#define _XOPEN_SOURCE
+
 #include <assert.h>
 #include <sys/uio.h>
 #include <limits.h>
@@ -17,6 +21,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <malloc.h>
+#include <sys/stat.h>
 
 /*
  * A custom implementation of writev without nice things like support
@@ -185,10 +190,10 @@ int main(int argc, char *argv[])
 {
 	int i;
 
+	(void)argc;
+
 	/* Create buffers (malloc) */
-	for	 (i = 0; i < NUMBER_VECS; i++) {
-		int j;
-		struct iovec *vec = (struct iovec *)&write_iovecs[i];
+	for (i = 0; i < NUMBER_VECS; i++) {
 		void * mem;
 
 		mem = malloc(CHUNK_SIZE);

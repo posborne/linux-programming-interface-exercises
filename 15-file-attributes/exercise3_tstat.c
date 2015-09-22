@@ -7,7 +7,10 @@
 
    The '-l' option indicates that lstat() rather than stat() should be used.
 */
-#define _BSD_SOURCE   /* Get major() and minor() from <sys/types.h> */
+
+#define _DEFAULT_SOURCE   /* Get major() and minor() from <sys/types.h> */
+#define _BSD_SOURCE
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>

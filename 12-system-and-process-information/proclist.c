@@ -15,13 +15,18 @@ Make sure your porgram correctly handles the possibility that a
 determines that the directory exists and the time that it tries to
 open the corresponding /proc/PID/status file.
 */
-#include "proclib.h"
+
+#define _DEFAULT_SOURCE
+#define _BSD_SOURCE
+
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <sys/types.h>
 #include <string.h>
+#include <dirent.h>
+
+#include "proclib.h"
 
 #define PROCFS_ROOT "/proc"
 
@@ -51,6 +56,7 @@ uid_t user_id_from_name(const char *name)
 
 void print_usage(int argc, char **argv)
 {
+	(void)argc;
 	printf("Usage: %s <username>\n", argv[0]);
 }
 
@@ -63,7 +69,6 @@ int check_dir(char *dirname, uid_t uid)
 	char procname[256];
 	char pid[32];
 	int keepme;
-	char *pstr;
 	char *key;
 	char *value;
 	FILE *p_file;
@@ -75,7 +80,6 @@ int check_dir(char *dirname, uid_t uid)
 		return 1; /* just ignore, this is fine I guess */
 	}
 	keepme = 0;
-	int res;
 	while (fgets(linebuf, sizeof(linebuf), p_file) != NULL) {
 		key = strtok(linebuf, ":");
 		value = strtok(NULL, ":");
@@ -83,11 +87,11 @@ int check_dir(char *dirname, uid_t uid)
 			trim(key);
 			trim(value);
 			if ((strcmp(key, "Uid") == 0) && strstr(value, uidstr) != NULL) {
-				// printf("[%s] UID=%s\n", filename, value);
+				/* printf("[%s] UID=%s\n", filename, value); */
 				keepme = 1;
 			}
 			if (strcmp(key, "Name") == 0) {
-				// printf("[%s] NAME=%s\n", filename, value);
+				/* printf("[%s] NAME=%s\n", filename, value); */
 				strcpy(procname, value);
 			}
 			if (strcmp(key, "Pid") == 0) {
@@ -115,7 +119,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	uid = user_id_from_name(argv[1]);
-	if (uid == -1) {
+	if (uid == (uid_t)-1) {
 		printf("Invalid username specified (not found)\n");
 		return 1;
 	}

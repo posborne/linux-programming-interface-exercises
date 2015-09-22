@@ -25,6 +25,7 @@
   dependencies.
 
 */
+#define _DEFAULT_SOURCE
 #define _BSD_SOURCE
 
 #define MAX_ALLOCS 1000000
@@ -38,7 +39,7 @@ main(int argc, char *argv[])
 {
     char *ptr[MAX_ALLOCS];
     int freeStep, freeMin, freeMax, blockSize, numAllocs, j;
-    int previous_sbrk, current_sbrk;
+    void *previous_sbrk, *current_sbrk;
 
     printf("\n");
 

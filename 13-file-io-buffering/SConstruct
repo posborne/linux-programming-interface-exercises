@@ -3,9 +3,10 @@ import stat
 
 def build_env(bufsize, sync=False):
     if sync:
-        return Environment(CFLAGS='-g -DBUF_SIZE=%s -DSYNC' % bufsize)
+        return Environment(CFLAGS='-g -Wall -Werror -pedantic -std=c99 -DBUF_SIZE=%s -DSYNC' % bufsize)
     else:
-        return Environment(CFLAGS='-g -DBUF_SIZE=%s' % bufsize)
+        return Environment(CFLAGS='-g -Wall -Werror -pedantic -std=c99 -DBUF_SIZE=%s' % bufsize)
+
 
 def make_prog(bufsize, sync=False):
     if sync:
@@ -16,6 +17,7 @@ def make_prog(bufsize, sync=False):
     env = build_env(bufsize, sync)
     SConscript('SConscript', exports='env variant', variant_dir=vardir)
     return vardir
+
 
 sizes = (10, 512, 512000)
 vardirs = []
@@ -48,6 +50,6 @@ with open('./testfile.txt', 'w') as f:
 #
 # Other programs not done in a SConscript
 #
-env = Environment(CFLAGS='-g')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic -std=c99')
 env.Program('prog_write_bytes', 'write_bytes.c')
 env.Program('prog_tail', 'tail.c')

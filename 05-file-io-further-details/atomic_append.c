@@ -27,10 +27,14 @@
  * Author: Paul Osborne <osbpau@gmail.com>
  */
 
+#define _DEFAULT_SOURCE
+#define _BSD_SOURCE
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 int print_usage(char *argv[])
 {

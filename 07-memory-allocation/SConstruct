@@ -1,4 +1,4 @@
-env = Environment(CFLAGS='-g -Wall')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic -std=c99')
 env.Program('prog_free_and_sbrk', 'free_and_sbrk.c')
 env.Program('prog_free_and_sbrk_7_1', 'free_and_sbrk_7_1.c')
 env.Program('prog_malloc', 'po_malloc_free.c')
