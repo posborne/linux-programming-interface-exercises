@@ -28,6 +28,7 @@
  */
 
 #define _DEFAULT_SOURCE
+#define _BSD_SOURCE
 
 #include <fcntl.h>
 #include <stdio.h>

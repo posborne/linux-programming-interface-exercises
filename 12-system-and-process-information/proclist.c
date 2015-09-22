@@ -17,6 +17,7 @@ open the corresponding /proc/PID/status file.
 */
 
 #define _DEFAULT_SOURCE
+#define _BSD_SOURCE
 
 #include <pwd.h>
 #include <stdio.h>

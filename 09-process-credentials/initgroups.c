@@ -1,4 +1,5 @@
 #define _DEFAULT_SOURCE
+#define _BSD_SOURCE
 
 #include <grp.h>
 #include <pwd.h>

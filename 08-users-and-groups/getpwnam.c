@@ -5,6 +5,7 @@
  */
 
 #define _DEFAULT_SOURCE
+#define _BSD_SOURCE
 
 #include <stdio.h>
 #include <sys/types.h>

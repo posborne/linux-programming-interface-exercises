@@ -20,6 +20,7 @@ Providing this output consists of two main steps:
 */
 
 #define _DEFAULT_SOURCE
+#define _BSD_SOURCE
 
 #include "proclib.h"
 #include <dirent.h>
