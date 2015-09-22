@@ -1,2 +1,2 @@
-env = Environment(CFLAGS='-g')
+env = Environment(CFLAGS='-g -Wall -Werror -pedantic')
 env.Program('prog_benchmarkwrites', 'benchmarkwrites.c')
