@@ -73,7 +73,7 @@ int setenv(const char *envname, const char *envval, int overwrite)
 	for (ppEnvEntry = environ; *ppEnvEntry != NULL; ppEnvEntry++) {
 		/* looking for '{envname}=' */
 		if (strncmp(*ppEnvEntry, envname, strlen(envname)) == 0 &&
-		    *ppEnvEntry[strlne(envname)] == '=') {
+		    *ppEnvEntry[strlen(envname)] == '=') {
 			if (overwrite == 0)
 				return 0; /* we are done here */
 			break; /* we found our entry */
@@ -146,7 +146,7 @@ int unsetenv(const char *name)
 	for (ppTargetLocation = environ; *ppTargetLocation != NULL; ppTargetLocation++) {
 		/* looking for '{name}=' */
 		if (strncmp(*ppTargetLocation, name, strlen(name)) == 0 &&
-		    *ppTargetLocation[strlne(name)] == '=') {
+		    *ppTargetLocation[strlen(name)] == '=') {
 			break; /* we found our entry */
 		}
 	}
