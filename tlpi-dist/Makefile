@@ -8,7 +8,7 @@ DIRS = 	lib \
     	acl altio \
 	cap \
 	daemons dirs_links \
-	fileio filelock files filesys getopt \
+	filebuff fileio filelock files filesys getopt \
 	inotify \
 	loginacct \
 	memalloc \
@@ -21,18 +21,32 @@ DIRS = 	lib \
 	signals sockets \
 	svipc svmsg svsem svshm \
 	sysinfo \
+	syslim \
 	threads time timers tty \
 	users_groups \
 	vmem \
-	xattr
+	xattr\
+	e23_test #2016/03/03
+
+# The "namespaces" directory is deliberately excluded from the above
+# list because much of the code requires a fairly recent kernel and
+# userspace to build. Nevertheless, there is a Makefile in that directory.
+
+
+BUILD_DIRS = ${DIRS} ${CDIRS}
 
 # Dummy targets for building and clobbering everything in all subdirectories
-
+#
+#
 all: 	
-	@ for dir in ${DIRS}; do (cd $${dir}; ${MAKE}) ; done
+	@ for dir in ${BUILD_DIRS}; do (cd $${dir}; ${MAKE}) ; done
 
 allgen: 
-	@ for dir in ${DIRS}; do (cd $${dir}; ${MAKE} allgen) ; done
+	@ for dir in ${BUILD_DIRS}; do (cd $${dir}; ${MAKE} allgen) ; done
 
 clean: 
-	@ for dir in ${DIRS}; do (cd $${dir}; ${MAKE} clean) ; done
+	@ for dir in ${BUILD_DIRS}; do (cd $${dir}; ${MAKE} clean) ; done
+
+showvariable:
+	@ echo ${MAKE}
+	@ echo ${BUILD_DIRS}
