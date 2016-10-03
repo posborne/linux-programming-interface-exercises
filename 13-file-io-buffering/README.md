@@ -65,17 +65,25 @@ Exercise 13-3
 
 **Question**
 
-What is the effect ofthe followin statements?
+What is the effect of the following statements?
 
      fflush(fp);
      fsync(fileno(fp));
 
 **Answer**
 
-These commands will ensure that all bytes that have been written to a
+`fflush(fp)` flushes all data in the user space buffer associated with the stream `fp` to the kernel 
+space buffer using system call `write`.
+
+`fd = fileno(fp)` gets the corresponding file descriptor associated with the stream `fp`, then `fsync(fd)`
+flushes the kernel space buffer data associated with the file descriptor to disk (or disk caches).
+
+Thus the two calls ensures that the data in the user space buffer is written into disk (or disk caches).
+
+__These commands will ensure that all bytes that have been written to a
 stream will be flushed into kernel buffers and subsequently written to
 disk before program execution continues.  Basically, it ensure that
-all writes have been written (for this open file).
+all writes have been written (for this open file).__
 
 Exercise 13-4
 -------------
