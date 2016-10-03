@@ -15,6 +15,12 @@ file.  Why is this?
 
 **Answer**
 
+Actually, this problem is not correct, as `pw_uid` is passed by value.
+
+The author of the book has corrected this problem, refer to
+`http://man7.org/tlpi/errata/` for the new problem and the solution
+provided by the author.
+
 getpwnam() is not reentrant.  That is, with both calls it returns a
 refernce to the same statically allocated strcture in memory.  So,
 only the result from the second call (for "tsr") will be present for
