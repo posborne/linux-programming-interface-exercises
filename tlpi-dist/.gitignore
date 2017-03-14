@@ -1,0 +1,28 @@
+#Reference:https://github.com/github/gitignore
+#Compiled object files.
+*.o
+*.lo
+*.slo
+*.obj
+
+#Precompiled Headers.
+*.gch
+*.pch
+
+#Compiled dynamic libraries.
+*.so
+*.dylib
+*.dll
+
+#Compiled static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+#Temp Swap Files.
+*.swp
+tags
+
+#Ignore folder.
+#rsync/
