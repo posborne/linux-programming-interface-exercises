@@ -87,6 +87,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	off_t lastApparentByte = lseek(inputFd, -1, SEEK_END);
+	lseek(outputFd, lastApparentByte, SEEK_SET);
+	write(outputFd, "", 1);
+
 	/* close fds */
 	close(inputFd);
 	close(outputFd);
