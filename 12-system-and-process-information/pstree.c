@@ -136,7 +136,8 @@ int print_tree(struct pstree_node * root, int level)
 	}
 	printf("%s (pid: %d, ppid: %d)\n", root->name, root->pid, root->ppid);
 	/* recurse on children */
-	while ((node = root->children[i++]) != NULL) {
+	int j = 0;
+	while ((node = root->children[j++]) != NULL) {
 		print_tree(node, level + 1);
 	}
 	return 0;
